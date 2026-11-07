@@ -1,0 +1,42 @@
+<div class="guide-intro"><p class="section-kicker">07 / Handy tools</p><h3>工具与管理</h3><p>遇到不知道怎么用的功能，先看帮助菜单；下方还列出了运行状态与管理员常用入口。</p></div>
+<h4>每个人都能用</h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/帮助</code> 或 <code>/helps</code></td><td>查看当前机器人菜单；也可试 <code>/菜单</code>、<code>/功能</code>。</td></tr>
+<tr><td><code>/状态</code> 或 <code>/status</code></td><td>查看服务器运行状态图。</td></tr>
+<tr><td><code>/当前余额查询</code><br><code>/所有余额查询</code></td><td>查看模型账户余额；是否向普通用户开放由当前设置决定。</td></tr>
+<tr><td><code>/黑名单统计</code><br><code>/缓存统计</code></td><td>查看情感功能的统计信息。</td></tr>
+</tbody></table>
+<h4>管理员：陪伴与情绪</h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/陪伴 删除日程 &lt;时间/序号/活动名&gt;</code><br><code>/陪伴 删除话头 &lt;关键词/全部&gt;</code></td><td>移除日程或对话线索。</td></tr>
+<tr><td><code>/陪伴 查看提示词 &lt;日程/细化/主动/回复注入&gt;</code></td><td>查看相应的陪伴设置内容。</td></tr>
+<tr><td><code>/陪伴 答疑确认</code><br><code>/陪伴 答疑取消</code><br><code>/陪伴 答疑设置 &lt;配置项&gt; &lt;值&gt;</code></td><td>确认、取消或调整陪伴诊断提出的设置。</td></tr>
+<tr><td><code>/陪伴 撤回消息</code><br><code>/陪伴 清空记忆</code><br><code>/陪伴 重置当前人格</code><br><code>/陪伴 重置插件</code></td><td>撤回消息或重置资料；执行前请确认影响范围。</td></tr>
+<tr><td><code>/设置情感 &lt;用户&gt; &lt;维度&gt; &lt;数值&gt;</code><br><code>/重置好感 &lt;用户&gt;</code><br><code>/查看好感 &lt;用户&gt;</code></td><td>查看或调整指定用户的情感状态。</td></tr>
+<tr><td><code>/reset_emotion [uid]</code><br><code>/reset_current [uid]</code><br><code>/reset_all_emotions</code></td><td>重置另一组情绪记录；最后一条会影响全部用户。</td></tr>
+<tr><td><code>/set_emotion ...</code></td><td>手动调整情绪数据；具体参数以指令返回的提示为准。</td></tr>
+</tbody></table>
+<h4>管理员：记忆与内容</h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/mcomp clear_scope group &lt;群号&gt; [清空]</code><br><code>/mcomp clear_scope private &lt;QQ&gt; [清空]</code></td><td>预览或清空指定群聊、私聊范围的记忆；带「清空」才会执行。</td></tr>
+<tr><td><code>/mcomp clear_scope group_member &lt;群号&gt; &lt;QQ&gt; [清空]</code></td><td>预览或清空某位群成员在指定群内的记忆。</td></tr>
+<tr><td><code>/mcomp audit apply &lt;批次ID&gt; 确认</code><br><code>/mcomp audit rollback &lt;批次ID&gt; 确认</code></td><td>应用或回滚记忆审计结果。</td></tr>
+<tr><td><code>/mcomp preset status</code><br><code>/mcomp preset apply light|standard|companion</code></td><td>查看或切换记忆工作模式。</td></tr>
+<tr><td><code>/mcomp data preview &lt;路径&gt;</code><br><code>/mcomp data import &lt;路径&gt;</code></td><td>预览或导入记忆档案。</td></tr>
+<tr><td><code>/画图工作流</code></td><td>查看绘图工作流入口；需已配置图片服务。</td></tr>
+<tr><td><code>/meme on</code><br><code>/meme off</code><br><code>/meme status</code></td><td>控制表情包功能并查看状态。其他管理参数可从 <code>/meme menu</code> 查看。</td></tr>
+<tr><td><code>/meme auto_on</code><br><code>/meme auto_off</code><br><code>/meme group</code><br><code>/meme 偷</code></td><td>控制自动发送、群范围与短时收集。</td></tr>
+<tr><td><code>/meme list</code><br><code>/meme clean</code><br><code>/meme capacity</code><br><code>/meme delete</code></td><td>查看和整理表情包库。</td></tr>
+<tr><td><code>/meme blacklist</code><br><code>/meme scope</code><br><code>/meme rebuild_index</code></td><td>管理收集范围、黑名单与检索索引。</td></tr>
+<tr><td><code>/meme natural_analysis</code><br><code>/meme emotion_stats</code><br><code>/meme clear_emotion_cache</code><br><code>/meme tag_stats</code></td><td>分析表情使用情况并维护情绪标签缓存。</td></tr>
+</tbody></table>
+<h4>管理员：服务与群功能</h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/连接core</code></td><td>手动重连游戏数据服务。</td></tr>
+<tr><td><code>/清除日报缓存</code></td><td>清理晨报缓存。</td></tr>
+<tr><td><code>/lc订阅</code><br><code>/lc退订</code><br><code>/lc全部订阅</code></td><td>管理群内每日题目推送。</td></tr>
+<tr><td><code>/开启解析</code><br><code>/关闭解析</code><br><code>/登录B站</code></td><td>管理媒体链接解析及登录状态。</td></tr>
+<tr><td><code>/备份数据</code></td><td>备份情感数据。</td></tr>
+</tbody></table>
+<p>管理员还可以在管理面板中调整页面配色、统计显示，以及部分陪伴、绘图和群聊功能的开关。</p>
+<div class="hint">删除、重置、导入和清空类操作会影响已有资料。管理员应先确认目标用户、群聊和数据范围。</div>

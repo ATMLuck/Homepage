@@ -1,0 +1,23 @@
+[
+    {
+        "icon": "img/icons/cherry-blossom.svg",
+        "title": "樱奈子QQ智能聊天AI助手",
+        "desc": "基于开源框架和QQNT打造的二次元AI助手",
+        "techs": ["Python", "Linux", "Docker"],
+        "link": "./ynz/index.html"
+    },
+    {
+        "icon": "img/icons/house.svg",
+        "title": "ATMLuck的AGC小屋",
+        "desc": "我的个人主页项目，展示了我的技能、作品和联系方式。",
+        "techs": ["HTML", "CSS", "JavaScript", "NginX"],
+        "link": "./index.html"
+    },
+    {
+        "icon": "img/icons/cat-face.svg",
+        "title": "Iwanna",
+        "desc": "一款类 IWanna（I Wanna Be The Guy）风格的 2D 横板跑酷游戏",
+        "techs": ["Unity","C#","Git"],
+        "link": "https://github.com/ATMLuck/Iwanna"
+    }
+]

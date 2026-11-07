@@ -1,0 +1,26 @@
+[
+    {
+        "icon": "img/icons/high-voltage.svg",
+        "name": "算法IO",
+        "desc": "2026 蓝桥杯国二,2026 SZUCPC铜奖",
+        "level": 70
+    },
+    {
+        "icon": "img/icons/video-game.svg",
+        "name": "游戏开发",
+        "desc": "Unity6,C#",
+        "level": 40
+    },
+    {
+        "icon": "img/icons/wrench.svg",
+        "name": "后端开发",
+        "desc": "MySQL,Redis中间件,Linux,Docker",
+        "level": 40
+    },
+    {
+        "icon": "img/icons/clapper-board.svg",
+        "name": "视频剪辑",
+        "desc": "Pr / Ae ",
+        "level": 30
+    }
+]

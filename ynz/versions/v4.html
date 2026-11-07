@@ -1,0 +1,139 @@
+<div class="bg-white rounded-xl p-4 md:p-8 shadow-lg scrollbar-anime">
+                <!-- 头部标题与图片 -->
+                <div class="text-center mb-8">
+                    <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-darkBlue mb-4">樱奈子v4.0-beta更新</h1>
+                    <p class="text-slate-500 mb-6">机器人QQ：846714758</p>
+                    <div class="flex justify-center">
+                        <img src="../img/ynzd.webp" alt="ATMLuck" class="rounded-lg shadow-anime max-w-full h-auto" title="ATMLuck">
+                    </div>
+                </div>
+
+                <!-- 更新内容 -->
+                <section id="更新内容" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-refresh mr-2"></i>更新内容
+                    </h2>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-4 mb-6 shadow-anime-sm">
+                        <p class="text-amber-800 font-semibold flex items-center">
+                            <i class="fa fa-exclamation-triangle mr-2"></i>
+                            注意：<ins>本次更新为测试更新，更新功能为测试功能，部分功能可能会出现调用失败的情况</ins>
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-database mr-2"></i>1. 情感模块与记忆模块的重写
+                            </h3>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-share-alt mr-2"></i>2. 添加QQ空间相关功能
+                            </h3>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-cogs mr-2"></i>3. 部分模型调整
+                            </h3>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-image mr-2"></i>4. 生图与图片识别模块合并
+                            </h3>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm md:col-span-2">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-music mr-2"></i>5. 点歌API本地搭建
+                            </h3>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 更新详情 -->
+                <section id="更新详情" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-book mr-2"></i>更新详情
+                    </h2>
+
+                    <!-- 1. 情感与记忆模块重写 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-database mr-2"></i>1. 情感模块与记忆模块的重写
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p class="mb-3">该版本完全重写情感及记忆模块，将原json格式记忆改为数据库格式，并将原情感模块合并进记忆模块。</p>
+                            <p class="font-semibold text-darkBlue mb-2">每轮主链请求大致经过以下步骤：</p>
+                            <pre class="hljs rounded overflow-x-auto"><code>1. 解析当前会话身份、范围、群号/用户号和真实用户消息。
+2. 清理上一轮临时注入片段，避免历史 prompt 残留。
+3. 判断本轮消息类型：时间窗口、最近上下文、纠错、当前状态、低信息、新话题或长期记忆检索。
+4. 构造检索 query，默认只使用当前用户消息。
+5. 按可见性、ACL、窗口边界和生命周期筛选候选。
+6. 使用本地评分、可选 Embedding 和可选 Rerank 排序。
+7. 若短 TTL 检索缓存命中，会直接复用同一权限与同一记忆库 revision 下的结果，同时更新访问统计。
+8. 将结果分配到自我时间线、用户画像、当前窗口、阶段总结和稳定记忆槽。
+9. 按表达策略分成 mention_memory、tone_memory、uncertain_memory。
+10. 生成临时记忆包并注入本轮请求。
+11. 记录用户消息、Bot 回复和群聊普通发言到时间线，等待总结与维护。</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 2. QQ空间功能 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-share-alt mr-2"></i>2. QQ空间相关功能
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>添加机器人监听、读取、生成QQ空间帖子的能力，同时提供评论、回复、点赞等功能。</p>
+                        </div>
+                    </div>
+
+                    <!-- 3. 模型调整 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-cogs mr-2"></i>3. 部分模型调整
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>删除原<strong>deepseek-chat</strong>和<strong>deepseek-reasoner</strong>，添加以下模型：</p>
+                            <ul class="list-disc pl-6 mt-2 mb-3 space-y-1">
+                                <li><strong>Kimi-2.6</strong></li>
+                                <li><strong>moonshot-v1-8k-vision-preview</strong></li>
+                                <li><strong>doubao-seed-2-0-mini-260428</strong></li>
+                            </ul>
+                            <p>通过秘书模型根据场景调用不同模型进行回复与功能调用，减少回复延迟与成本。</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. 生图与图片识别合并 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-image mr-2"></i>4. 生图与图片识别模块合并
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>修复图片识别失败的问题，合并生图与图片识别，统一管理模型调度。</p>
+                            <p class="mt-2">生图模型更改为 <strong>doubao-seedream-5-0-260128</strong>。</p>
+                        </div>
+                    </div>
+
+                    <!-- 5. 点歌API -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-music mr-2"></i>5. 点歌API本地搭建
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>在服务器本地搭建<strong>ncm-api</strong>服务，由<strong>docker compose</strong>统一管理，提高点歌功能稳定性。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 注意事项 -->
+                <section id="注意事项" class="anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-info-circle mr-2"></i>注意事项
+                    </h2>
+                    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-4 shadow-anime-sm">
+                        <p class="text-amber-800">
+                            <i class="fa fa-exclamation-circle mr-2"></i>
+                            <strong>PS：</strong>由于记忆存储方式更改，本次更新不会迁移原历史记忆数据，机器人将出现部分记忆丢失现象。
+                        </p>
+                    </div>
+                </section>
+            </div>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- 鼠标跟随光效 -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 樱花花瓣 -->
+    <div class="sakura-container" id="sakuraContainer"></div>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <span></span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <!-- 导航由JS动态生成 -->
+        </ul>
+        <div class="nav-overlay" id="navOverlay"></div>
+    </nav>
+
+    <main>
+        <!-- Hero 区域 -->
+        <section class="hero" id="home">
+            <div class="hero-container">
+                <div class="character-display">
+                    <div class="character-ring"></div>
+                    <div class="character-ring"></div>
+                    <div class="character-ring"></div>
+                    <div class="character-img" id="characterImg">
+                        <!-- 头像由JS加载 -->
+                    </div>
+                </div>
+                <div class="hero-content">
+                    <div class="greeting">
+                        <img src="img/icons/sparkles.svg" class="greeting-icon" alt="">
+                        <span id="greetingText"></span>
+                    </div>
+                    <h1 class="typing-text" id="typingText"></h1>
+                    <p class="hero-description"></p>
+                    <div class="hero-tags">
+                        <!-- 标签由JS动态生成 -->
+                    </div>
+                    <div class="cta-buttons">
+                        <!-- 按钮由JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技能区域 -->
+        <section class="skills-section" id="skills">
+            <h2 class="section-title">技能树 <img src="img/icons/sparkles.svg" class="section-title-icon" alt=""></h2>
+            <div class="skills-grid">
+                <!-- 技能卡片由JS动态生成 -->
+            </div>
+        </section>
+
+        <!-- 项目展示 -->
+        <section class="projects-section" id="projects">
+            <h2 class="section-title">作品展示 <img src="img/icons/rocket.svg" class="section-title-icon" alt=""></h2>
+            <div class="projects-grid">
+                <!-- 项目卡片由JS动态生成 -->
+            </div>
+        </section>
+
+        <!-- 时间线 -->
+    <!--
+        <section class="timeline-section" id="timeline">
+            <h2 class="section-title">成长历程 <img src="img/icons/open-book.svg" class="section-title-icon" alt=""></h2>
+            <div class="timeline">
+                
+            </div>
+        </section>
+    -->
+
+        <!-- 联系区域 -->
+        <section class="contact-section" id="contact">
+            <h2 class="section-title">联系我 <img src="img/icons/love-letter.svg" class="section-title-icon" alt=""></h2>
+            <div class="contact-container">
+                <div class="contact-card">
+                    <div class="cat-ears">
+                        <div class="cat-ear"></div>
+                        <div class="cat-ear"></div>
+                    </div>
+                    <p class="contact-desc"></p>
+                    <p class="contact-email"></p>
+                    <div class="social-links">
+                        <!-- 社交链接由JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <p class="footer-text"></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<div class="bg-white rounded-xl p-4 md:p-8 shadow-lg scrollbar-anime">
+                <!-- 头部图片 -->
+                <div class="text-center mb-8">
+                    <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-darkBlue mb-4">樱奈子v2.0更新</h1>
+                    <p class="text-slate-500 mb-6">机器人QQ：846714758</p>
+                    <div class="flex justify-center">
+                        <img src="../img/ynzd.webp" alt="ATMLuck" class="rounded-lg shadow-anime max-w-full h-auto" title="ATMLuck">
+                    </div>
+                </div>
+
+
+                <!-- 功能更新 -->
+                <section id="功能更新" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-refresh mr-2"></i>功能更新
+                    </h2>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-star text-primary"></i>好感度系统更新
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-microphone text-primary"></i>自动语音生成
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-play-circle text-primary"></i>平台视频解析支持
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-picture-o text-primary"></i>图片生成模型更新
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-sign-in text-primary"></i>森空岛签到功能
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm">
+                            <i class="fa fa-comments text-primary"></i>对话模型加强
+                        </li>
+                        <li class="anime-border-card rounded-lg p-3 flex items-center gap-2 shadow-anime-sm sm:col-span-2 md:col-span-3">
+                            <i class="fa fa-user-circle text-primary"></i>人格动态演化
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- 当前功能列表 -->
+                <section id="功能列表" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-list-ul mr-2"></i>当前功能列表
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <a href="#id1" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">1.</span>今日运势生成
+                        </a>
+                        <a href="#id2" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">2.</span>好感度统计
+                        </a>
+                        <a href="#id3" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">3.</span>歌曲点播
+                        </a>
+                        <a href="#id4" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">4.</span>图像生成
+                        </a>
+                        <a href="#id5" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">5.</span>语音生成
+                        </a>
+                        <a href="#id6" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm">
+                            <span class="font-bold text-primary">6.</span>多平台视频解析
+                        </a>
+                        <a href="#id7" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm sm:col-span-2 md:col-span-1">
+                            <span class="font-bold text-primary">7.</span>森空岛每日签到
+                        </a>
+                        <a href="#id8" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm sm:col-span-2 md:col-span-1">
+                            <span class="font-bold text-primary">8.</span>群活跃分析及总结
+                        </a>
+                        <a href="#id9" class="anime-border-card rounded-lg p-4 text-center hover:bg-lightBlue/30 transition-colors shadow-anime-sm sm:col-span-2 md:col-span-1">
+                            <span class="font-bold text-primary">9.</span>每日早报放送
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 功能及指令详细介绍 -->
+                <section id="详细介绍" class="anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-book mr-2"></i>功能及指令详细介绍
+                    </h2>
+
+                    <!-- 1.今日运势生成 -->
+                    <div id="id1" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-calendar-star-o mr-2"></i>1.今日运势生成
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <pre class="hljs rounded overflow-x-auto"><code>/jrys : 生成今日运势图片
+/jrysn : 随即从图源中获取一张背景图（无运势信息）
+/jrysl last : 获取上一次运势的原始背景图片（无运势信息）</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- 2.好感度统计 -->
+                    <div id="id2" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-heartbeat mr-2"></i>2.好感度统计
+                        </h3>
+                        <h4 class="text-lg font-semibold text-darkBlue mb-2"><img src="../img/icons/open-book.svg" class="eicon" alt=""> 简介 | Introduction</h4>
+                        <p class="mb-4">在回复你之前，AI 会先在脑海中进行一场 <strong>“心理活动”</strong>：感知你的语气、回忆你们的关系、平复自己的情绪，最后才决定说什么。这让它不再是一个冷冰冰的问答机器，而是一个有着喜怒哀乐、会记仇、会心软的“数字生命”。</p>
+
+                        <h4 class="text-lg font-semibold text-darkBlue mb-3"><img src="../img/icons/sparkles.svg" class="eicon" alt=""> 深度功能解析 | Deep Dive</h4>
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/brain.svg" class="eicon" alt=""> 1. 认知共鸣</h5>
+                        <p class="mb-3">它强制 LLM 在回复前执行一套<strong>“拟人化思维程序”</strong>：</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><strong>感知 (Perception)</strong>：AI 首先会分析你说这句话的潜在意图。你是真心的？还是在阴阳怪气？</li>
+                            <li><strong>评估 (Evaluation)</strong>：结合它当前的“心情”和对你的“好感度”，判断这句话对它的影响。</li>
+                            <li><strong>代谢 (Metabolism)</strong>：<strong>v3.3 核心技术！</strong> AI 具备了自我调节能力。如果它之前很生气（愤怒值高），但你刚刚道歉了，它会在心里默默扣除愤怒值（如 <code>anger: -10</code>），让自己消气。</li>
+                            <li><strong>决策 (Decision)</strong>：基于上述分析，决定接下来的语气风格（傲娇？撒娇？冷漠？）。</li>
+                        </ul>
+
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/eyes.svg" class="eicon" alt=""> 2. 心理显示模式</h5>
+                        <p class="mb-2"><strong>想知道 AI 表面对你笑嘻嘻，心里是不是在骂你？</strong></p>
+                        <p class="mb-3">这个功能允许你“偷窥”AI 的真实内心活动。开启后，AI 的每一次回复都会附带一段 <code>&lt;thought&gt;</code> 标签（仅你可见，不影响其他人）。</p>
+                        <p class="font-semibold mb-1">效果演示：</p>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-4">
+                            <p class="font-medium">用户：笨蛋，这都做不好！</p>
+                            <p class="font-medium mt-2">AI (心理活动)：</p>
+                            <p><code>感知：被骂了，好难过，他怎么这么凶。</code></p>
+                            <p><code>评估：虽然很委屈，但他毕竟是前辈... 不行，还是很生气！</code></p>
+                            <p><code>决策：语气要带点哭腔，让他产生愧疚感。</code></p>
+                            <p><code>更新：sadness:+5, favor:-2</code></p>
+                            <p class="font-medium mt-2">AI (实际回复)：</p>
+                            <p>呜... 前辈干嘛这么凶嘛... 我下次注意就是了...</p>
+                        </div>
+
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/performing-arts.svg" class="eicon" alt=""> 3. 三层语气渲染 (Tone Rendering)</h5>
+                        <p class="mb-3">AI 的情感表达不再是单一的“开心”或“生气”，它支持 <strong>“主导 + 夹杂 + 微带”</strong> 的复杂情感混合。</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li>示例场景：当你送给它一个意想不到的礼物时。</li>
+                            <li>AI 状态：主导[惊喜]，夹杂[害羞]，微带[不知所措]。</li>
+                            <li>最终表现：它会表现得非常高兴，但又因为收礼而感到不好意思，甚至说话变得结结巴巴，语无伦次。</li>
+                        </ul>
+
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/red-heart.svg" class="eicon" alt=""> 4. 主动情感代谢 (Active Metabolism) <code>v3.0+</code></h5>
+                        <p class="mb-3">告别"情感只增不减"的 BUG！<br>系统授权 LLM <strong>主动输出负值</strong>（如 <code>anger:-10</code>）来抵消旧情绪。只有当你真正打动它时，它才会"消气"。</p>
+
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/performing-arts.svg" class="eicon" alt=""> 5. 12维度全景心理模型</h5>
+                        <p class="mb-3">细腻的情感光谱，支持复杂的社会性情感交互：</p>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">基础情感</th>
+                                        <th class="border border-secondary p-2 text-left">高级情感 (v2.5+)</th>
+                                        <th class="border border-secondary p-2 text-left">状态指标</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/grinning-face-with-smiling-eyes.svg" class="eicon" alt=""> <strong>Joy</strong> (喜悦)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/face-with-steam-from-nose.svg" class="eicon" alt=""> <strong>Pride</strong> (得意/傲娇)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/red-heart.svg" class="eicon" alt=""> <strong>Favor</strong> (好感度)</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/handshake.svg" class="eicon" alt=""> <strong>Trust</strong> (信任)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/pensive.svg" class="eicon" alt=""> <strong>Guilt</strong> (内疚/愧疚)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/link.svg" class="eicon" alt=""> <strong>Intimacy</strong> (亲密度)</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/fearful.svg" class="eicon" alt=""> <strong>Fear</strong> (恐惧)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/flushed.svg" class="eicon" alt=""> <strong>Shame</strong> (害羞/羞耻)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/astonished.svg" class="eicon" alt=""> <strong>Surprise</strong> (惊讶)</td>
+                                        <td class="border border-secondary p-2"><img src="../img/icons/lemon.svg" class="eicon" alt=""> <strong>Envy</strong> (嫉妒/吃醋)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/crying-face.svg" class="eicon" alt=""> <strong>Sadness</strong> (悲伤)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/nauseated-face.svg" class="eicon" alt=""> <strong>Disgust</strong> (厌恶)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/enraged.svg" class="eicon" alt=""> <strong>Anger</strong> (愤怒)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/star-struck.svg" class="eicon" alt=""> <strong>Anticipation</strong> (期待)</td>
+                                        <td class="border border-secondary p-2"></td>
+                                        <td class="border border-secondary p-2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="text-lg font-semibold text-darkBlue mb-3"><img src="../img/icons/shield.svg" class="eicon" alt=""> 安全与管理机制 | Safety & Management</h4>
+                        <h5 class="font-semibold text-primary mb-2">1. 黑名单熔断系统 (Emotional Meltdown)</h5>
+                        <p class="mb-2"><strong>自动保护机制</strong>：防止 Bot 被恶意调教或辱骂</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><img src="../img/icons/high-voltage.svg" class="eicon" alt=""> <strong>实时检测</strong>：每次情感更新时自动检查好感度阈值</li>
+                            <li><img src="../img/icons/locked.svg" class="eicon" alt=""> <strong>自动拦截</strong>：好感度 ≤ <code>favour_min</code> 时自动加入黑名单</li>
+                            <li><img src="../img/icons/prohibited.svg" class="eicon" alt=""> <strong>拒绝服务</strong>：黑名单用户无法触发任何 LLM 思考</li>
+                            <li><img src="../img/icons/arrows-counterclockwise.svg" class="eicon" alt=""> <strong>自动恢复</strong>：通过管理员指令重置好感度时自动移除黑名单</li>
+                        </ul>
+
+                        <h5 class="font-semibold text-primary mb-2">2. 智能缓存系统 (TTL Cache System) <code>v3.3+</code></h5>
+                        <p class="mb-2"><strong>性能大幅提升</strong>：</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><img src="../img/icons/alarm-clock.svg" class="eicon" alt=""> <strong>自动过期</strong>：支持 TTL (Time-To-Live) 自动清理机制</li>
+                            <li><img src="../img/icons/package.svg" class="eicon" alt=""> <strong>容量控制</strong>：最大缓存条目限制，防止内存泄漏</li>
+                            <li><img src="../img/icons/bar-chart.svg" class="eicon" alt=""> <strong>实时统计</strong>：通过 <code>/缓存统计</code> 查看命中率和性能指标</li>
+                            <li><img src="../img/icons/locked.svg" class="eicon" alt=""> <strong>线程安全</strong>：异步锁保护，支持高并发访问</li>
+                        </ul>
+
+                        <h5 class="font-semibold text-primary mb-2">3. 数据持久化优化</h5>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><img src="../img/icons/rocket.svg" class="eicon" alt=""> <strong>异步 I/O</strong>：所有文件操作在独立线程池执行，不阻塞主线程</li>
+                            <li><img src="../img/icons/floppy-disk.svg" class="eicon" alt=""> <strong>增量保存</strong>：脏数据标记机制，只保存变更的用户数据</li>
+                            <li><img src="../img/icons/shield.svg" class="eicon" alt=""> <strong>安全写入</strong>：原子性写入操作，防止数据损坏</li>
+                            <li><img src="../img/icons/arrows-counterclockwise.svg" class="eicon" alt=""> <strong>自动备份</strong>：支持手动触发数据备份到独立目录</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold text-darkBlue mb-3"><img src="../img/icons/video-game.svg" class="eicon" alt=""> 指令手册 | Commands</h4>
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/man-raising-hand.svg" class="eicon" alt=""> 用户指令 (User)</h5>
+                        <p class="mb-2"><code>/心理显示</code></p>
+                        <ul class="list-disc pl-6 mb-3 space-y-1">
+                            <li><strong>作用</strong>：开关“读心术”模式。</li>
+                            <li><strong>详解</strong>：开启后，你会看到 AI 回复前的机制，让 AI 在回复前进行显式的心理推理与决策。</li>
+                        </ul>
+                        <p class="mb-3">主动代谢：修复了旧版本情感只增不减的问题，赋予 LLM 主动消除负面情绪的能力。<br>面板透明化：向 LLM 完整展示当前所有非零情感数值，消除信息差，实现精准的情感控制。</p>
+
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">指令</th>
+                                        <th class="border border-secondary p-2 text-left">参数</th>
+                                        <th class="border border-secondary p-2 text-left">功能详解</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/好感度</code></td>
+                                        <td class="border border-secondary p-2">无</td>
+                                        <td class="border border-secondary p-2">查看完整情感状态面板，包含12个情感维度的详细数值</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/状态显示</code></td>
+                                        <td class="border border-secondary p-2">无</td>
+                                        <td class="border border-secondary p-2">开关状态显示：开启后每次回复附带情感状态摘要</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/心理显示</code></td>
+                                        <td class="border border-secondary p-2">无</td>
+                                        <td class="border border-secondary p-2"><code>v3.3+</code> 开关思维显示：控制是否显示AI的完整思考过程（仅对自己生效）</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/好感排行</code></td>
+                                        <td class="border border-secondary p-2">[数量]</td>
+                                        <td class="border border-secondary p-2">查看正向好感度排行榜（默认前10名，最多20名）</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/负好感排行</code></td>
+                                        <td class="border border-secondary p-2">[数量]</td>
+                                        <td class="border border-secondary p-2">查看负向好感度排行榜（默认前10名，最多20名）</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/黑名单统计</code></td>
+                                        <td class="border border-secondary p-2">无</td>
+                                        <td class="border border-secondary p-2">查看黑名单用户统计和占比信息</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><code>/缓存统计</code></td>
+                                        <td class="border border-secondary p-2">无</td>
+                                        <td class="border border-secondary p-2">查看缓存系统性能指标和命中率统计</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="font-semibold text-primary mb-2">数据流架构</h5>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-4 overflow-x-auto">
+                            <pre class="hljs"><code>用户消息 → 黑名单检查 → 历史净化 → 情感上下文注入 → LLM处理
+     ↓
+思维链解析 → 情感更新应用 → 状态持久化 → 响应返回</code></pre>
+                        </div>
+
+                        <h5 class="font-semibold text-primary mb-2">对话体验优化</h5>
+                        <ul class="list-disc pl-6 mb-0 space-y-1">
+                            <li><strong>日常使用</strong>：关闭心理显示，获得简洁回复</li>
+                            <li><strong>深度互动</strong>：开启心理显示，理解AI思考过程</li>
+                            <li><strong>调教阶段</strong>：开启状态显示，实时监控情感变化</li>
+                        </ul>
+                    </div>
+
+                    <!-- 3.歌曲点播 -->
+                    <div id="id3" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-music mr-2"></i>3.歌曲点播
+                        </h3>
+                        <p class="mb-3">智能使用多个api，达成免费听各种音乐</p>
+                        <h4 class="font-semibold text-darkBlue mb-2">使用方法</h4>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-0">
+                            <pre class="hljs"><code>/点歌 &lt;歌名&gt;</code></pre>
+                            <p class="mt-2">在机器人返回搜索列表后，想听的歌对应的<strong>数字</strong>即可。</p>
+                        </div>
+                    </div>
+
+                    <!-- 4.图像生成 -->
+                    <div id="id4" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-paint-brush mr-2"></i>4.图像生成
+                        </h3>
+                        <p class="mb-3">火山方舟Seedream5.0E模型图片生成模型，支持文生图、图生图功能。</p>
+                        <h4 class="font-semibold text-darkBlue mb-2">功能特性</h4>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li>支持文生图：通过提示词生成高清图片</li>
+                            <li>支持图生图：基于参考图片+提示词生成图片</li>
+                            <li>自动校验图片尺寸，适配火山方舟像素要求</li>
+                        </ul>
+                        <h4 class="font-semibold text-darkBlue mb-2">使用方法</h4>
+                        <h5 class="font-semibold text-primary mb-2">基础指令</h5>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-3">
+                            <pre class="hljs"><code>/画图 &lt;提示词&gt;</code></pre>
+                        </div>
+                        <h5 class="font-semibold text-primary mb-2">使用示例</h5>
+                        <ol class="list-decimal pl-6 mb-0 space-y-3">
+                            <li>
+                                <strong>文生图</strong>
+                                <div class="bg-lightBlue/20 rounded-lg p-3 shadow-anime-sm mt-1">
+                                    <pre class="hljs"><code>/画图 星空下的大海，高清，细节丰富</code></pre>
+                                </div>
+                            </li>
+                            <li>
+                                <strong>图生图</strong>
+                                <ul class="list-disc pl-6 mt-1 space-y-2">
+                                    <li>发送图片 + 指令：
+                                        <div class="bg-lightBlue/20 rounded-lg p-3 shadow-anime-sm mt-1">
+                                            <pre class="hljs"><code>/画图 将图片中的人物服装换成古风</code></pre>
+                                        </div>
+                                    </li>
+                                    <li>纯图片生成（无提示词）：
+                                        <div class="bg-lightBlue/20 rounded-lg p-3 shadow-anime-sm mt-1">
+                                            <pre class="hljs"><code>/画图</code></pre>
+                                            <p class="mt-2 text-sm">(需同时发送参考图片)</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- 5.语音生成 -->
+                    <div id="id5" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-microphone-slash mr-2"></i>5.语音生成
+                        </h3>
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/sparkles.svg" class="eicon" alt=""> 功能特性</h4>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">特性</th>
+                                        <th class="border border-secondary p-2 text-left">说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/speaking-head.svg" class="eicon" alt=""> 音色克隆</td>
+                                        <td class="border border-secondary p-2">接入火山引擎音色克隆 (ICL) API，使用自定义克隆音色</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/control-knobs.svg" class="eicon" alt=""> 音频参数可调</td>
+                                        <td class="border border-secondary p-2">支持调节语速、音量、音调</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/game-die.svg" class="eicon" alt=""> 概率触发</td>
+                                        <td class="border border-secondary p-2">可配置 0–100% 的回复概率，不是每条都转语音</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/straight-ruler.svg" class="eicon" alt=""> 长度限制</td>
+                                        <td class="border border-secondary p-2">超出设定字数的回复自动跳过，保留文字输出</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/open-book.svg" class="eicon" alt=""> 使用方式</h4>
+                        <p class="mb-3">采用 <strong>被动触发</strong> 模式，无需任何命令。工作流程如下：</p>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-0 overflow-x-auto">
+                            <pre class="hljs"><code>用户发送消息 → LLM 生成文字回复 → 插件以设定概率拦截
+                                       │
+                              ┌────────┴────────┐
+                              │ 概率命中 & 文本  │
+                              │ 长度在范围内     │
+                              └────────┬────────┘
+                                       │
+                          调用火山引擎克隆语音 API
+                                       │
+                              ┌────────┴────────┐
+                              │ 合成成功         │
+                              └────────┬────────┘
+                                       │
+                           将文字回复替换为语音消息</code></pre>
+                            <ul class="list-disc pl-6 mt-3 space-y-1">
+                                <li>当概率未命中或文本超长/过短时，原始文字回复不受影响。</li>
+                                <li>当 TTS 合成失败时，插件会记录错误日志并静默降级为文字回复，<strong>不会影响正常聊天</strong>。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 6.多平台视频解析 -->
+                    <div id="id6" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-video-camera mr-2"></i>6.多平台视频解析
+                        </h3>
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/open-book.svg" class="eicon" alt=""> 介绍</h4>
+                        <p class="mb-2">当前支持的平台和类型：</p>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">平台</th>
+                                        <th class="border border-secondary p-2 text-left">触发的消息形态</th>
+                                        <th class="border border-secondary p-2 text-center">视频</th>
+                                        <th class="border border-secondary p-2 text-center">图集</th>
+                                        <th class="border border-secondary p-2 text-center">音频</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">B站</td>
+                                        <td class="border border-secondary p-2">av 号/BV 号/链接/短链/卡片/小程序</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">抖音</td>
+                                        <td class="border border-secondary p-2">链接(分享链接，兼容电脑端链接)</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">微博</td>
+                                        <td class="border border-secondary p-2">链接(博文，视频，show, 文章)</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">小红书</td>
+                                        <td class="border border-secondary p-2">链接(含短链)/卡片</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">快手</td>
+                                        <td class="border border-secondary p-2">链接(包含标准链接和短链)</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">acfun</td>
+                                        <td class="border border-secondary p-2">链接</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">youtube</td>
+                                        <td class="border border-secondary p-2">链接(含短链)</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">tiktok</td>
+                                        <td class="border border-secondary p-2">链接</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">instagram</td>
+                                        <td class="border border-secondary p-2">链接</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2">twitter</td>
+                                        <td class="border border-secondary p-2">链接</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""></td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/party-popper.svg" class="eicon" alt=""> 指令</h4>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-center">指令</th>
+                                        <th class="border border-secondary p-2 text-center">权限</th>
+                                        <th class="border border-secondary p-2 text-center">说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center">开启解析</td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2 text-center">开启当前会话的解析功能</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center">关闭解析</td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2 text-center">关闭当前会话的解析功能</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center">blogin</td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2 text-center">扫码获取 B 站凭证</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/brain.svg" class="eicon" alt=""> 工作流程</h4>
+                        <ol class="list-decimal pl-6 mb-0 space-y-2">
+                            <li>
+                                <strong>消息接收</strong>
+                                <p class="mt-1 text-sm">监听所有消息事件，获取消息链与原始文本内容<br>- 支持普通文本、链接、卡片（Json 组件）</p>
+                            </li>
+                            <li>
+                                <strong>基础过滤</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>跳过已被禁用的会话</li>
+                                    <li>跳过空消息</li>
+                                    <li>若消息首段为 <code>@</code> 且目标不是本 Bot，则不解析</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>链接提取与匹配</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>若为卡片消息，先从 Json 中提取 URL</li>
+                                    <li>使用「关键词 + 正则」双重匹配，定位对应解析器</li>
+                                    <li>未匹配到解析规则则直接退出</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>仲裁判定</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>仅在 <code>aiocqhttp</code> 平台生效</li>
+                                    <li>通过固定表情进行 Bot 间仲裁</li>
+                                    <li>未胜出的 Bot 自动放弃解析</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>防抖判定</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>对同一会话内的相同链接进行时间窗口限制</li>
+                                    <li>命中防抖规则则跳过解析，避免短时间重复处理</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>内容解析</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>调用对应平台解析器获取媒体信息</li>
+                                    <li>生成统一的 <code>ParseResult</code> 数据结构</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>媒体下载与消息构建</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>下载视频 / 图片 / 音频 / 文件</li>
+                                    <li>根据配置决定音频发送方式</li>
+                                    <li>可按配置提示下载失败</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>消息合并与发送</strong>
+                                <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+                                    <li>当消息段数量超过阈值时自动合并为转发消息</li>
+                                    <li>最终将结果发送到对应会话</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- 7.森空岛每日签到 -->
+                    <div id="id7" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-check-square-o mr-2"></i>7.森空岛每日签到
+                        </h3>
+                        <p class="mb-3">森空岛自动签到，支持明日方舟和终末地签到。</p>
+                        <h4 class="font-semibold text-darkBlue mb-2">功能</h4>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><code>/skd</code> (群聊): 查看群内所有绑定用户的签到状态</li>
+                            <li><code>/skd</code> (私聊): 查看自己的签到状态</li>
+                            <li><code>/skdlogin</code> (私聊): 使用 token 登录并立即签到</li>
+                            <li><code>/skdlogout</code> (私聊): 登出并移除 token</li>
+                        </ul>
+                        <h4 class="font-semibold text-darkBlue mb-2">使用</h4>
+                        <h5 class="font-semibold text-primary mb-2">获取 Token</h5>
+                        <ol class="list-decimal pl-6 mb-3 space-y-1">
+                            <li>登录 <a href="https://www.skland.com/" target="_blank" class="text-primary hover:underline">森空岛</a></li>
+                            <li>访问 https://web-api.skland.com/account/info/hg</li>
+                            <li>找到返回的 JSON 中的 <code>{"content":"XXX"}</code></li>
+                            <li>复制 <code>XXX</code> 部分（这就是你的 token）</li>
+                        </ol>
+                        <h5 class="font-semibold text-primary mb-2">登录与签到</h5>
+                        <ol class="list-decimal pl-6 mb-0 space-y-1">
+                            <li>私聊发送 <code>/skdlogin &lt;token&gt;</code> 进行登录（将 <code>&lt;token&gt;</code> 替换为上面获取的 XXX）</li>
+                            <li>登录成功后会自动执行一次签到</li>
+                            <li>之后可以发送 <code>/skd</code> 查看签到状态</li>
+                        </ol>
+                    </div>
+
+                    <!-- 8.群活跃分析及总结 -->
+                    <div id="id8" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-bar-chart mr-2"></i>8.群活跃分析及总结
+                        </h3>
+                        <div class="flex justify-center mb-4">
+                            <img src="https://count.getloli.com/@astrbot-qq-group-daily-analysis?name=astrbot-qq-group-daily-analysis&theme=booru-jaypee&padding=6&offset=0&align=top&scale=1&pixelated=1&darkmode=auto" alt="count" class="h-auto" loading="lazy" onerror="this.style.display='none'">
+                        </div>
+                        <h4 class="font-semibold text-darkBlue mb-3">功能特色</h4>
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/bullseye.svg" class="eicon" alt=""> 智能分析</h5>
+                        <ul class="list-disc pl-6 mb-3 space-y-1">
+                            <li><strong>统计数据</strong>: 全面的群聊活跃度和参与度统计</li>
+                                                        <li><strong>多维度分析</strong>: 发言量、互动频率、活跃时段、关键词提取等</li>
+                            <li><strong>智能总结</strong>: 基于群聊内容自动生成每日/每周活跃度总结</li>
+                            <li><strong>可视化展示</strong>: 生成活跃度图表，直观展示群成员互动情况</li>
+                        </ul>
+
+                        <h5 class="font-semibold text-primary mb-2"><img src="../img/icons/bar-chart.svg" class="eicon" alt=""> 数据统计维度</h5>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">统计维度</th>
+                                        <th class="border border-secondary p-2 text-left">说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/memo.svg" class="eicon" alt=""> 发言统计</td>
+                                        <td class="border border-secondary p-2">按日/周/月统计群成员发言次数、字数、消息类型</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/three-oclock.svg" class="eicon" alt=""> 活跃时段</td>
+                                        <td class="border border-secondary p-2">分析群内一天中/一周内的活跃高峰时段</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/busts-in-silhouette.svg" class="eicon" alt=""> 互动关系</td>
+                                        <td class="border border-secondary p-2">统计@提及、回复、引用等互动行为，分析成员关联度</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/key.svg" class="eicon" alt=""> 关键词分析</td>
+                                        <td class="border border-secondary p-2">提取群聊高频关键词，识别讨论热点</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/chart-increasing.svg" class="eicon" alt=""> 活跃度排行</td>
+                                        <td class="border border-secondary p-2">生成群成员活跃度排行榜，支持自定义时间范围</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/video-game.svg" class="eicon" alt=""> 指令使用</h4>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-4">
+                            <pre class="hljs"><code>/群活跃 [时间范围] - 生成群活跃度分析报告
+/群总结 [时间范围] - 生成群聊内容总结
+/活跃排行 [数量] - 查看群成员活跃度排行榜
+/活跃时段 - 查看群内活跃时段分布</code></pre>
+                            <p class="mt-2 text-sm">时间范围支持：今日/昨日/本周/上周/本月/上月，不填默认今日</p>
+                        </div>
+                    </div>
+
+                    <!-- 9.每日早报放送 -->
+                    <div id="id9" class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-newspaper-o mr-2"></i>9.每日早报放送
+                        </h3>
+                        <p class="mb-3">自动推送每日早报，包含热点新闻、天气、生活提示等内容，支持自定义推送时间和内容来源。</p>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/sparkles.svg" class="eicon" alt=""> 功能特性</h4>
+                        <ul class="list-disc pl-6 mb-4 space-y-1">
+                            <li><strong>多源内容聚合</strong>: 整合新闻、天气、星座运势、健康贴士等多类信息</li>
+                            <li><strong>定时推送</strong>: 支持自定义推送时间（默认早8点），可按群配置不同时间</li>
+                            <li><strong>个性化定制</strong>: 每个群可独立配置是否推送、推送内容类型、推送时段</li>
+                            <li><strong>图文排版</strong>: 自动美化排版，支持图片+文字组合推送</li>
+                            <li><strong>离线缓存</strong>: 提前缓存早报内容，避免推送时网络问题导致失败</li>
+                        </ul>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/clipboard.svg" class="eicon" alt=""> 内容模块</h4>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-left">模块名称</th>
+                                        <th class="border border-secondary p-2 text-left">说明</th>
+                                        <th class="border border-secondary p-2 text-center">默认状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/sun-behind-small-cloud.svg" class="eicon" alt=""> 天气模块</td>
+                                        <td class="border border-secondary p-2">根据群所在地自动获取当地天气，含温度、降水、风力等</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""> 开启</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/newspaper.svg" class="eicon" alt=""> 热点新闻</td>
+                                        <td class="border border-secondary p-2">聚合全网热点新闻，支持自定义新闻分类（科技/娱乐/体育等）</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""> 开启</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/ferris-wheel.svg" class="eicon" alt=""> 星座运势</td>
+                                        <td class="border border-secondary p-2">当日12星座运势，可配置是否显示</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""> 关闭</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/light-bulb.svg" class="eicon" alt=""> 生活贴士</td>
+                                        <td class="border border-secondary p-2">每日健康、饮食、出行等实用提示</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/check-mark-button.svg" class="eicon" alt=""> 开启</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2"><img src="../img/icons/calendar.svg" class="eicon" alt=""> 历史上的今天</td>
+                                        <td class="border border-secondary p-2">展示当日历史事件，增加趣味性</td>
+                                        <td class="border border-secondary p-2 text-center"><img src="../img/icons/cross-mark.svg" class="eicon" alt=""> 关闭</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-semibold text-darkBlue mb-3"><img src="../img/icons/video-game.svg" class="eicon" alt=""> 管理指令</h4>
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                                <thead>
+                                    <tr class="bg-primary/10">
+                                        <th class="border border-secondary p-2 text-center">指令</th>
+                                        <th class="border border-secondary p-2 text-center">权限</th>
+                                        <th class="border border-secondary p-2 text-left">说明</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center"><code>/开启早报</code></td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2">开启当前群的每日早报推送</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center"><code>/关闭早报</code></td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2">关闭当前群的每日早报推送</td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center"><code>/设置早报时间</code></td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2">设置当前群早报推送时间，格式：<code>/设置早报时间 08:00</code></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center"><code>/配置早报模块</code></td>
+                                        <td class="border border-secondary p-2 text-center">ADMIN</td>
+                                        <td class="border border-secondary p-2">配置早报显示的模块，格式：<code>/配置早报模块 天气=开 星座=关</code></td>
+                                    </tr>
+                                    <tr class="hover:bg-lightBlue/20">
+                                        <td class="border border-secondary p-2 text-center"><code>/获取今日早报</code></td>
+                                        <td class="border border-secondary p-2 text-center">ALL</td>
+                                        <td class="border border-secondary p-2">手动触发获取今日早报，无需等待定时推送</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>

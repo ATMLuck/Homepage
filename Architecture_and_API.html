@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>AutoSZUWeb 架构与 API 说明</title>
+    <script src="js/vendor/tailwind.js"></script>
+    <link href="css/vendor/font-awesome.min.css" rel="stylesheet">
+    <script src="js/vendor/highlight.min.js"></script>
+    <link rel="stylesheet" href="css/vendor/atom-one-light.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4A90E2',
+                        secondary: '#87CEFA',
+                        darkBlue: '#1E64C8',
+                        lightBlue: '#E6F4FF',
+                        navy: '#0F3460'
+                    },
+                    fontFamily: {
+                        anime: ['"Microsoft YaHei"', 'PingFang SC', 'Hiragino Sans GB', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'anime': '0 0 15px rgba(74, 144, 226, 0.6), 0 0 25px rgba(135, 206, 250, 0.4)',
+                        'anime-sm': '0 0 8px rgba(74, 144, 226, 0.5), 0 0 12px rgba(135, 206, 250, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .anime-border {
+                border: 2px solid transparent;
+                background-clip: padding-box, border-box;
+                background-origin: padding-box, border-box;
+                background-image: linear-gradient(to bottom, #f8fafc, #f1f5f9), linear-gradient(135deg, #4A90E2, #87CEFA, #4A90E2);
+            }
+            .anime-border-card {
+                border: 1px solid transparent;
+                background-clip: padding-box, border-box;
+                background-origin: padding-box, border-box;
+                background-image: linear-gradient(to bottom, white, white), linear-gradient(90deg, #4A90E2, #87CEFA);
+            }
+            .scrollbar-anime {
+                scrollbar-width: thin;
+                scrollbar-color: #4A90E2 #E6F4FF;
+            }
+            .scrollbar-anime::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            .scrollbar-anime::-webkit-scrollbar-thumb {
+                background-color: #4A90E2;
+                border-radius: 4px;
+            }
+            .scrollbar-anime::-webkit-scrollbar-track {
+                background-color: #E6F4FF;
+                border-radius: 4px;
+            }
+            .anchor-offset {
+                scroll-margin-top: 80px;
+            }
+            .timeline-line {
+                position: absolute;
+                left: 24px;
+                top: 0;
+                bottom: 0;
+                width: 3px;
+                background: linear-gradient(to bottom, #4A90E2, #87CEFA, #4A90E2);
+                border-radius: 3px;
+                pointer-events: none;
+                z-index: 1;
+            }
+            .timeline-dot {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: white;
+                border: 3px solid #4A90E2;
+                position: absolute;
+                left: 17px;
+                top: 24px;
+                z-index: 10;
+                transition: all 0.3s ease;
+            }
+            .timeline-item.active .timeline-dot {
+                background: #4A90E2;
+                box-shadow: 0 0 10px rgba(74, 144, 226, 0.8);
+                transform: scale(1.2);
+            }
+            .timeline-item {
+                position: relative;
+                padding-left: 56px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 5;
+            }
+            .timeline-item:hover .timeline-content {
+                background: rgba(74, 144, 226, 0.1);
+            }
+            .timeline-item.active .timeline-content {
+                background: rgba(74, 144, 226, 0.15);
+                border-left: 3px solid #4A90E2;
+            }
+            .timeline-content {
+                padding: 16px;
+                border-radius: 12px;
+                border-left: 3px solid transparent;
+                transition: all 0.3s ease;
+                position: relative;
+                z-index: 6;
+                background: white;
+            }
+            .version-badge {
+                display: inline-block;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 0.75rem;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+            .version-badge.v3 {
+                background: linear-gradient(135deg, #4A90E2, #87CEFA);
+                color: white;
+            }
+            .version-badge.v2 {
+                background: linear-gradient(135deg, #87CEFA, #4A90E2);
+                color: white;
+            }
+            .version-badge.v4 {
+                background: linear-gradient(135deg, #F59E0B, #EF4444);
+                color: white;
+            }
+            /* 文档表格 */
+            .doc-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 0 8px rgba(74, 144, 226, 0.25);
+                margin: 12px 0 20px;
+                font-size: 0.9rem;
+            }
+            .doc-table thead th {
+                background: linear-gradient(135deg, #4A90E2, #87CEFA);
+                color: white;
+                padding: 10px 14px;
+                text-align: left;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+            .doc-table tbody td {
+                padding: 10px 14px;
+                border-bottom: 1px solid #E6F4FF;
+                background: white;
+                vertical-align: top;
+            }
+            .doc-table tbody tr:nth-child(even) td {
+                background: #F5FAFF;
+            }
+            .doc-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+            /* 行内代码 */
+            .doc-content :not(pre) > code {
+                background: #E6F4FF;
+                color: #1E64C8;
+                padding: 2px 6px;
+                border-radius: 6px;
+                font-size: 0.85em;
+                font-family: Consolas, Monaco, 'Courier New', monospace;
+                border: 1px solid rgba(74, 144, 226, 0.25);
+                word-break: break-all;
+            }
+            .doc-content pre code {
+                font-family: Consolas, Monaco, 'Courier New', monospace;
+            }
+            .doc-content pre {
+                margin: 12px 0 16px;
+            }
+            /* 文档列表 */
+            .doc-list {
+                padding-left: 1.6rem;
+                margin: 8px 0;
+            }
+            .doc-list li {
+                margin-bottom: 6px;
+                padding-left: 2px;
+            }
+            .doc-list.decimal {
+                list-style: decimal;
+            }
+            .doc-list.disc {
+                list-style: disc;
+            }
+            .doc-list li::marker {
+                color: #4A90E2;
+                font-weight: bold;
+            }
+            .doc-list .doc-list {
+                margin-top: 6px;
+            }
+            /* 返回顶部按钮 */
+            #backToTop {
+                transition: all 0.3s ease;
+            }
+            #backToTop.hidden-state {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(10px);
+            }
+            /* 折叠状态优化 */
+            .sidebar-collapsed {
+                width: 70px;
+            }
+            .sidebar-collapsed .timeline-text,
+            .sidebar-collapsed .version-badge {
+                opacity: 0;
+                transform: translateX(-10px);
+                pointer-events: none;
+            }
+            .sidebar-collapsed .timeline-line {
+                left: 33px;
+            }
+            .sidebar-collapsed .timeline-dot {
+                left: 26px;
+                width: 20px;
+                height: 20px;
+                border-width: 4px;
+            }
+            .sidebar-collapsed .timeline-item {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .sidebar-collapsed .timeline-content {
+                padding: 12px 8px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 60px;
+            }
+            .sidebar-collapsed .timeline-item:hover .timeline-dot {
+                transform: scale(1.3);
+                box-shadow: 0 0 15px rgba(74, 144, 226, 0.6);
+            }
+            .sidebar-collapsed .timeline-item.active .timeline-dot {
+                background: linear-gradient(135deg, #4A90E2, #87CEFA);
+                border-color: #1E64C8;
+                box-shadow: 0 0 15px rgba(74, 144, 226, 0.9);
+            }
+
+            /* Tooltip for collapsed state */
+            .timeline-tooltip {
+                position: absolute;
+                left: 55px;
+                top: 50%;
+                transform: translateY(-50%) scale(0.8);
+                background: linear-gradient(135deg, #4A90E2, #87CEFA);
+                color: white;
+                padding: 6px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.2s ease;
+                z-index: 100;
+                box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+            }
+            .timeline-tooltip::before {
+                content: '';
+                position: absolute;
+                left: -6px;
+                top: 50%;
+                transform: translateY(-50%);
+                border: 6px solid transparent;
+                border-right-color: #4A90E2;
+            }
+            .sidebar-collapsed .timeline-item:hover .timeline-tooltip {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
+
+            /* 移动端样式 */
+            @media (max-width: 768px) {
+                #sidebar {
+                    width: 280px;
+                    transform: translateX(-100%);
+                    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+                }
+                #sidebar.mobile-open {
+                    transform: translateX(0);
+                }
+                #mainContent {
+                    margin-left: 0 !important;
+                    width: 100%;
+                }
+                .timeline-line {
+                    left: 20px;
+                }
+                .timeline-dot {
+                    left: 13px;
+                    width: 14px;
+                    height: 14px;
+                    border-width: 2.5px;
+                }
+                .timeline-item {
+                    padding-left: 45px;
+                }
+                /* 移动端遮罩层 */
+                .sidebar-overlay {
+                    display: none;
+                    position: fixed;
+                    top: 64px;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.5);
+                    z-index: 35;
+                    backdrop-filter: blur(2px);
+                }
+                .sidebar-overlay.active {
+                    display: block;
+                }
+            }
+
+            /* 小屏手机优化 */
+            @media (max-width: 480px) {
+                #sidebar {
+                    width: 260px;
+                }
+                .timeline-content {
+                    padding: 12px;
+                }
+                .version-badge {
+                    font-size: 0.7rem;
+                    padding: 3px 10px;
+                }
+            }
+
+            /* 鼠标跟随光效 */
+            .cursor-glow {
+                position: fixed;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(74, 144, 226, 0.12) 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 0;
+                transform: translate(-50%, -50%);
+                transition: opacity 0.3s;
+            }
+
+            /* 樱花花瓣飘落特效 */
+            .sakura-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 2;
+                overflow: hidden;
+            }
+
+            .sakura-petal {
+                position: absolute;
+                width: 15px;
+                height: 15px;
+                background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFD1DC 100%);
+                border-radius: 100% 0 100% 0;
+                opacity: 0.7;
+                box-shadow: 0 0 5px rgba(255, 182, 193, 0.3);
+            }
+
+            .sakura-petal::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 60%;
+                height: 60%;
+                background: linear-gradient(135deg, rgba(255,255,255,0.5), transparent);
+                border-radius: 100% 0 100% 0;
+            }
+
+            /* 飘落动画 - 较慢速度 */
+            @keyframes sakura-fall-1 {
+                0% {
+                    transform: translateY(-10vh) translateX(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.7;
+                }
+                90% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateY(110vh) translateX(30px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sakura-fall-2 {
+                0% {
+                    transform: translateY(-10vh) translateX(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.7;
+                }
+                90% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateY(110vh) translateX(-40px) rotate(-360deg);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sakura-fall-3 {
+                0% {
+                    transform: translateY(-10vh) translateX(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.7;
+                }
+                90% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateY(110vh) translateX(50px) rotate(540deg);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sakura-fall-4 {
+                0% {
+                    transform: translateY(-10vh) translateX(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.7;
+                }
+                90% {
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: translateY(110vh) translateX(-25px) rotate(-540deg);
+                    opacity: 0;
+                }
+            }
+
+            /* 移动端隐藏鼠标效果 */
+            @media (max-width: 768px) {
+                .cursor-glow {
+                    display: none;
+                }
+            }
+
+            /* 自定义鼠标指针 - 使用图片，左上角为点击区域 */
+            * {
+                cursor: url('img/pos.png') 0 0, auto !important;
+            }
+
+            /* 点击时的浅蓝色光圈扩散特效 */
+            .click-ripple {
+                position: fixed;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(135, 206, 250, 0.8);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 99999;
+                transform: translate(-50%, -50%);
+                animation: ripple-expand 0.6s ease-out forwards;
+                box-shadow: 0 0 10px rgba(135, 206, 250, 0.6), inset 0 0 10px rgba(135, 206, 250, 0.4);
+            }
+
+            @keyframes ripple-expand {
+                0% {
+                    width: 10px;
+                    height: 10px;
+                    opacity: 1;
+                    border-width: 3px;
+                }
+                100% {
+                    width: 80px;
+                    height: 80px;
+                    opacity: 0;
+                    border-width: 0px;
+                }
+            }
+
+            /* 点击时的中心点高亮 */
+            .click-ripple::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 6px;
+                height: 6px;
+                background: rgba(74, 144, 226, 0.9);
+                border-radius: 50%;
+                box-shadow: 0 0 8px rgba(74, 144, 226, 0.8);
+                animation: ripple-center 0.4s ease-out forwards;
+            }
+
+            @keyframes ripple-center {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0.5);
+                }
+            }
+
+            /* 移动端恢复默认指针 */
+            @media (max-width: 768px) {
+                * {
+                    cursor: auto !important;
+                }
+                a, button, [role="button"] {
+                    cursor: pointer !important;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-anime text-slate-800 scrollbar-anime">
+    <!-- 鼠标跟随光效 -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- 樱花花瓣 -->
+    <div class="sakura-container" id="sakuraContainer"></div>
+
+    <!-- 顶部导航 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-anime-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-[clamp(1.2rem,3vw,1.8rem)] font-bold text-primary flex items-center">
+                <i class="fa fa-cubes text-darkBlue mr-2"></i>AutoSZUWeb 架构与 API
+            </h1>
+            <div class="flex items-center gap-2">
+                <a href="user_manual.html" class="text-primary text-xl p-2 rounded-lg hover:bg-lightBlue/30 transition-colors" title="使用指南">
+                    <i class="fa fa-book"></i>
+                </a>
+                <button id="sidebarToggle" class="text-primary text-xl p-2 rounded-lg hover:bg-lightBlue/30 transition-colors" title="切换侧边栏" onclick="toggleSidebar()">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 移动端遮罩层 -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- 主容器 -->
+    <div class="flex pt-16 min-h-screen">
+        <!-- 左侧目录侧边栏 -->
+        <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-72 bg-white shadow-anime-sm overflow-y-auto scrollbar-anime z-40" style="transition: transform 0.3s ease, opacity 0.3s ease;">
+            <div class="p-4">
+                <h2 class="text-lg font-bold text-darkBlue mb-6 flex items-center px-2">
+                    <i class="fa fa-book mr-2"></i>文档目录
+                </h2>
+                <div class="relative" id="timelineContainer" style="min-height: calc(100vh - 250px);">
+                    <div class="timeline-line"></div>
+
+                    <div class="timeline-item active mb-4" data-section="sec-1" onclick="goToSection('sec-1')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">01 项目概述</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v3">01</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">项目概述</h3>
+                                <p class="text-sm text-slate-500 mt-1">工具定位 · 技术栈与约束</p>
+                                <p class="text-xs text-slate-400 mt-1">第 1 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-2" onclick="goToSection('sec-2')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">02 完整功能清单</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v2">02</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">完整功能清单</h3>
+                                <p class="text-sm text-slate-500 mt-1">15 项功能 · 行为说明</p>
+                                <p class="text-xs text-slate-400 mt-1">第 2 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-3" onclick="goToSection('sec-3')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">03 总体架构</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v3">03</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">总体架构</h3>
+                                <p class="text-sm text-slate-500 mt-1">分层 · 目录 · CMake · 依赖</p>
+                                <p class="text-xs text-slate-400 mt-1">第 3 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-4" onclick="goToSection('sec-4')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">04 核心运行流程</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v2">04</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">核心运行流程</h3>
+                                <p class="text-sm text-slate-500 mt-1">main 分发 · 配置 · 状态机</p>
+                                <p class="text-xs text-slate-400 mt-1">第 4 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-5" onclick="goToSection('sec-5')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">05 认证协议实现</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v3">05</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">认证协议实现</h3>
+                                <p class="text-sm text-slate-500 mt-1">SRun · ePortal · 探测 · 日志</p>
+                                <p class="text-xs text-slate-400 mt-1">第 5 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-6" onclick="goToSection('sec-6')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">06 凭据安全设计</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v2">06</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">凭据安全设计</h3>
+                                <p class="text-sm text-slate-500 mt-1">DPAPI · 钥匙串 · AES-GCM</p>
+                                <p class="text-xs text-slate-400 mt-1">第 6 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-7" onclick="goToSection('sec-7')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">07 模块 API 参考</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v3">07</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">模块 API 参考</h3>
+                                <p class="text-sm text-slate-500 mt-1">13 个公共/内部模块接口</p>
+                                <p class="text-xs text-slate-400 mt-1">第 7 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-8" onclick="goToSection('sec-8')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">08 平台差异对照</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v2">08</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">平台差异对照</h3>
+                                <p class="text-sm text-slate-500 mt-1">Windows / macOS / Linux</p>
+                                <p class="text-xs text-slate-400 mt-1">第 8 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-9" onclick="goToSection('sec-9')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">09 测试体系</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v3">09</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">测试体系</h3>
+                                <p class="text-sm text-slate-500 mt-1">测试组 · 环境变量 · 运行</p>
+                                <p class="text-xs text-slate-400 mt-1">第 9 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item mb-4" data-section="sec-10" onclick="goToSection('sec-10')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">10 持续集成（CI）</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v2">10</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">持续集成（CI）</h3>
+                                <p class="text-sm text-slate-500 mt-1">GitHub Actions 三矩阵</p>
+                                <p class="text-xs text-slate-400 mt-1">第 10 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-section="sec-11" onclick="goToSection('sec-11')">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-tooltip">11 扩展指南</div>
+                        <div class="timeline-content">
+                            <span class="version-badge v4">11</span>
+                            <div class="timeline-text">
+                                <h3 class="font-bold text-slate-800">扩展指南</h3>
+                                <p class="text-sm text-slate-500 mt-1">新钩子 · 新平台 · 协议 · 打包</p>
+                                <p class="text-xs text-slate-400 mt-1">第 11 章</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-extension" style="position: absolute; left: 24px; top: 100%; width: 4px; height: calc(100vh - 300px); background: linear-gradient(to bottom, #4A90E2, #87CEFA, transparent); opacity: 0.3;"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 右侧内容区域 -->
+        <main id="mainContent" class="flex-1" style="transition: margin-left 0.3s ease; margin-left: 288px;">
+            <div class="container mx-auto px-4 pt-2 pb-16">
+                <div class="anime-border rounded-2xl p-1 md:p-4 mb-8">
+                    <div class="doc-content bg-white rounded-xl p-4 md:p-8 shadow-lg scrollbar-anime">
+                        <!-- 头部标题与图片 -->
+                        <div class="text-center mb-8">
+                            <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-darkBlue mb-4">AutoSZUWeb 架构与 API 说明</h1>
+                            <p class="text-slate-500 mb-2">深圳大学校园网后台自动认证工具 · 面向开发者与维护者</p>
+                            <p class="text-slate-400 text-sm mb-6">功能清单 · 架构 · 认证协议 · 安全设计 · API 参考 · 测试 · CI</p>
+                            <div class="flex justify-center">
+                                <img src="./img/ynzd.webp" alt="AutoSZUWeb" class="rounded-lg shadow-anime max-w-full h-auto" style="max-width: 400px;" title="AutoSZUWeb">
+                            </div>
+                        </div>
+
+                        <!-- 文档说明 -->
+                        <div class="bg-lightBlue/40 border-l-4 border-primary rounded-lg p-4 mb-10 shadow-anime-sm">
+                            <p class="text-slate-700">
+                                <i class="fa fa-info-circle text-primary mr-2"></i>
+                                本文档面向开发者与维护者，覆盖项目的<strong>完整功能清单、总体架构、构建体系、核心流程、认证协议、安全设计与全部公共模块的 API 参考</strong>。
+                                安装、日常使用、更新与卸载等操作指引见 <a href="user_manual.html" class="text-primary font-semibold hover:underline">使用指南.md</a>。
+                            </p>
+                        </div>
+
+                        <!-- 1. 项目概述 -->
+                        <section id="sec-1" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-rocket mr-2"></i>1. 项目概述
+                            </h2>
+                            <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-6">
+                                <p>AutoSZUWeb 是深圳大学校园网后台自动认证工具：配置一次校园卡号与统一身份认证密码后常驻后台，周期性探测外网连通性，断网时自动完成教学/办公区 SRun 认证，失败则回退宿舍区 ePortal 认证。</p>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                <i class="fa fa-cubes mr-2"></i>技术栈与约束
+                            </h3>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>项</th>
+                                            <th>内容</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-semibold">语言标准</td>
+                                            <td>C++17（<code>CXX_EXTENSIONS OFF</code>，无编译器扩展）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">构建系统</td>
+                                            <td>CMake ≥ 3.20</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">第三方库</td>
+                                            <td>libcurl（HTTP 客户端）、OpenSSL（MD5/SHA1/HMAC/AES-256-GCM）、nlohmann/json（JSON）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">发布平台</td>
+                                            <td>Windows（MinGW UCRT64，GUI 子系统单文件 exe）、macOS 11+（arm64 / x86_64，.app bundle）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">Linux</td>
+                                            <td>仅作为开发期逻辑测试桩（<code>build.sh</code>），不产出发布二进制</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">许可</td>
+                                            <td>MIT</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- 2. 完整功能清单 -->
+                        <section id="sec-2" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-list mr-2"></i>2. 完整功能清单
+                            </h2>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>功能</th>
+                                            <th>行为说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-semibold">1</td>
+                                            <td class="font-semibold">后台常驻自动认证</td>
+                                            <td>无参数启动后进入 <code>Online</code>/<code>Offline</code> 状态机，10 秒一轮；启动时立即认证一次</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">2</td>
+                                            <td class="font-semibold">双认证链路回退</td>
+                                            <td>每次认证先尝试教学/办公区 SRun（<code>net.szu.edu.cn</code>），失败回退宿舍区 ePortal（<code>172.30.255.42:801</code>）；失败消息合并两个阶段的原因</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">3</td>
+                                            <td class="font-semibold">外网连通性探测</td>
+                                            <td>对三个公共 DNS（119.29.29.29 / 223.5.5.5 / 114.114.114.114）的 TCP 53 端口探测，任一可达即在线；每端点默认 2000 ms 超时</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">4</td>
+                                            <td class="font-semibold">首次配置向导</td>
+                                            <td>桌面 <code>userdata.txt</code> 模板生成 → 读取前两行（卡号/密码）→ 加密入库 → 删除明文文件；模板含提示文本，未替换即报错</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">5</td>
+                                            <td class="font-semibold">凭据本地加密</td>
+                                            <td>Windows DPAPI（绑定当前用户）；macOS 登录钥匙串保存 256 位随机密钥 + AES-256-GCM（随机 IV）加密配置；Linux 测试桩使用固定密钥</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">6</td>
+                                            <td class="font-semibold">开机自启动（含自修复）</td>
+                                            <td>Windows：自复制到 <code>%APPDATA%\AutoSZUWeb\</code> 并写 HKCU Run 注册表值；macOS：写用户级 LaunchAgent plist。每次启动都重新注册，允许用户移动 .app 后路径自动更新</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">7</td>
+                                            <td class="font-semibold">后台自动认证开关</td>
+                                            <td><code>setting.json</code> 的 <code>AutoAuth</code> 字段（默认 <code>true</code>，缺省/损坏回退为开）；常驻实例每个周期重读该字段，运行中修改约 10 秒内生效，关闭时完全静默（无任何网络请求）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">8</td>
+                                            <td class="font-semibold">命令行接口</td>
+                                            <td><code>卡号 密码</code> 手动认证一次、<code>--auto true|false</code> 修改开关、<code>--uninstall</code> 完全卸载、<code>--help</code>/<code>-h</code> 帮助；未知参数退出码 2；Windows 下宽字符 argv 转 UTF-8、GUI 子系统自动附加控制台</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">9</td>
+                                            <td class="font-semibold">手动认证模式</td>
+                                            <td>认证一次即退出：不写配置、不注册自启动、跳过单实例守卫；结果输出到控制台，无控制台时回退弹窗</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">10</td>
+                                            <td class="font-semibold">一键完全卸载</td>
+                                            <td><code>--uninstall</code>：确认弹窗 → 摘自启动 → 删共享数据（数据目录 + 桌面 userdata.txt）→ 平台善后（Windows 延迟自删运行中的 exe / macOS 钥匙串 + .app + bootout）→ 残留清单报告</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">11</td>
+                                            <td class="font-semibold">单实例保护</td>
+                                            <td>Windows 命名互斥体 / POSIX <code>flock</code>；锁路径 <code>&lt;数据目录&gt;/AutoSZUWeb.instance.lock</code>；<code>--auto</code> 用临时守卫探测常驻实例是否在运行</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">12</td>
+                                            <td class="font-semibold">认证日志</td>
+                                            <td>按天追加 <code>&lt;数据目录&gt;/logs/auth_YYYY-MM-DD.log</code>，记录时间、认证方式、结果、IP 与原因；macOS 另有 launchd 标准输出日志</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">13</td>
+                                            <td class="font-semibold">平台差异化 UI</td>
+                                            <td>Windows <code>MessageBoxW</code> 弹窗（含首次认证结果）；macOS 自绘 <code>NSPanel</code> 模态面板（LSUIElement 后台应用，弹窗时临时切换激活策略）；Linux 桩输出 stdout</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">14</td>
+                                            <td class="font-semibold">旧配置自动迁移</td>
+                                            <td>Windows 上若发现早期版本的 <code>%APPDATA%\autoWEB.json</code>，自动复制为 <code>setting.json</code> 并删除旧文件</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">15</td>
+                                            <td class="font-semibold">CI 自动构建</td>
+                                            <td>GitHub Actions：Windows（UCRT64）+ macOS arm64（macos-15）+ macOS x86_64（macos-15-intel）三矩阵，含测试、app bundle 校验与自包含 DMG 打包</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- 3. 总体架构 -->
+                        <section id="sec-3" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-sitemap mr-2"></i>3. 总体架构
+                            </h2>
+
+                            <!-- 3.1 分层结构 -->
+                            <div id="sec-3-1" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-cubes mr-2"></i>3.1 分层结构
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-plaintext">┌──────────────────────────────────────────────────────────────────┐
+│ AutoSZUWeb（可执行程序 / .app）                                   │
+│   src/AutoSZUWeb.cpp   main：CLI 分发、首次配置向导、常驻主循环    │
+│   src/web.cpp          Login：SRun → ePortal 回退编排、日志、弹窗  │
+│   src/srun.cpp         SRun（深澜）协议实现                       │
+├──────────────────────────────────────────────────────────────────┤
+│ AutoSZUWebCore（静态库；测试直接链接，逻辑可全平台覆盖）           │
+│   纯逻辑：cli / config / runtime / uninstall / user_data          │
+│   跨平台：sys.cpp(WriteAuthLog 等) / platform_support             │
+│   内部共享：internal/credential_crypto（Base64 + AES-256-GCM）     │
+├──────────────────────────────────────────────────────────────────┤
+│ 平台实现层（同名钩子、按平台择一编译）                             │
+│   src/windows/  sys.cpp  ui.cpp  file_path.cpp  network.cpp      │
+│                 single_instance.cpp                               │
+│   src/macos/    sys.cpp  ui.mm  file_path.cpp                    │
+│   src/posix/    network.cpp  single_instance.cpp（macOS/Linux 共用）│
+│   src/linux/    sys.cpp  ui.cpp  file_path.cpp（测试桩）          │
+├──────────────────────────────────────────────────────────────────┤
+│ AutoSZUWebTests（全平台逻辑测试）/ AutoSZUWebMacUITests（macOS）   │
+└──────────────────────────────────────────────────────────────────┘</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">设计原则：</p>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ul class="doc-list disc">
+                                        <li><strong>核心与平台分离</strong>：业务逻辑（解析、配置、状态机、卸载编排）是纯函数/纯逻辑，放在 Core 静态库，不依赖任何平台头文件，可在 Windows、macOS、Linux 三平台完整测试；</li>
+                                        <li><strong>平台钩子集中在 <code>sys.h</code> 等接口之后</strong>：每个平台目录提供同名实现，CMake 按平台择一编译；新增平台只需实现一组钩子；</li>
+                                        <li><strong>入口极薄</strong>：<code>main</code> 只做分发与流程编排，所有可测逻辑下沉到 Core。</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 3.2 目录结构 -->
+                            <div id="sec-3-2" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-folder-open mr-2"></i>3.2 目录结构
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-plaintext">AutoSZUWeb/
+├── CMakeLists.txt               # 构建定义
+├── README.md                    # 项目简介
+├── docs/
+│   ├── 使用指南.md               # 安装 / 使用 / 更新 / 卸载
+│   └── 架构与API.md              # 本文档
+├── include/                     # 公共头文件（Core 对外 API）
+│   ├── app_ui.h                 # 跨平台消息框与 UI 策略
+│   ├── cli.h                    # 命令行解析（纯函数）
+│   ├── config.h                 # setting.json AutoAuth 读写
+│   ├── file_path.h              # 数据根目录 / 桌面 / 配置路径
+│   ├── network.h                # 连通性探测与本机 IP
+│   ├── platform_support.h       # XML 转义、LaunchAgent plist 生成
+│   ├── runtime.h                # 监控状态机
+│   ├── single_instance.h        # SingleInstanceGuard
+│   ├── srun.h                   # SRun 协议入口
+│   ├── sys.h                    # 平台钩子（自启动/凭据/日志/CLI 支持）
+│   ├── uninstall.h              # 卸载编排
+│   ├── user_data.h              # userdata.txt 生命周期
+│   └── web.h                    # Login 认证入口
+├── src/
+│   ├── AutoSZUWeb.cpp           # main + 首次配置 + 常驻主循环
+│   ├── cli.cpp                  # Cli::Parse / PrintUsage
+│   ├── config.cpp               # AutoAuth 字段读写（原子写）
+│   ├── runtime.cpp              # RunIteration / RunMonitorLoop
+│   ├── sys.cpp                  # WriteAuthLog / GetCredentialError（跨平台部分）
+│   ├── uninstall.cpp            # Uninstall::RemoveAll / RemoveSharedData
+│   ├── user_data.cpp            # userdata.txt 模板 / 读取 / 删除
+│   ├── platform_support.cpp     # XmlEscape / BuildLaunchAgentPlist
+│   ├── web.cpp                  # Login 编排（SRun → ePortal）
+│   ├── srun.cpp                 # SRun 协议（challenge → 加密载荷 → 登录）
+│   ├── internal/
+│   │   ├── credential_crypto.h  # 内部共享：Base64 + AES-256-GCM + 错误状态
+│   │   └── credential_crypto.cpp
+│   ├── windows/                 # Win32：DPAPI、注册表、MessageBox、延迟删除…
+│   ├── macos/                   # Cocoa/Security：NSPanel、钥匙串、LaunchAgent…
+│   ├── posix/                   # macOS/Linux 共用：BSD socket 探测、flock
+│   └── linux/                   # 测试桩：stdout UI、固定测试密钥
+├── tests/
+│   ├── test_main.cpp            # 全平台逻辑与平台测试
+│   └── mac_ui_test.mm           # macOS NSPanel 冒烟测试
+├── packaging/entitlements.plist # codesign entitlements
+├── .github/workflows/build.yml  # CI 三矩阵
+├── build.bat                    # Windows 一键构建 + 测试
+├── build_macos.sh               # macOS 构建 .app + 测试
+├── build.sh                     # Linux 测试桩构建
+├── package_macos.sh             # DMG 打包（dylibbundler / 签名 / 可选公证）
+├── Info.plist.in                # .app 元数据模板（LSUIElement）
+├── lib/                         # Windows 预编译静态库（libcurl/OpenSSL 全家桶）
+├── res/ + ico/                  # Windows 图标资源
+└── dist/                        # 打包输出（不入库）</code></pre>
+                            </div>
+
+                            <!-- 3.3 CMake 目标与构建选项 -->
+                            <div id="sec-3-3" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-cogs mr-2"></i>3.3 CMake 目标与构建选项
+                                </h3>
+                                <div class="overflow-x-auto">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>目标</th>
+                                                <th>平台</th>
+                                                <th>说明</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>AutoSZUWebCore</code></td>
+                                                <td>全部</td>
+                                                <td>静态库：纯逻辑模块 + 平台钩子实现。链接 <code>OpenSSL::Crypto</code>；找到 <code>nlohmann_json</code> 配置包时以 PUBLIC 链接（MSYS2 无配置包，头文件在编译器默认包含路径）。Windows 另链 <code>ws2_32 crypt32 bcrypt shell32</code>；macOS 另链 <code>Security</code>、<code>Cocoa</code> 框架</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>AutoSZUWeb</code></td>
+                                                <td>仅 WIN32 / APPLE</td>
+                                                <td>可执行程序。Windows：windres 编译图标资源、<code>-static -mwindows</code>（静态单文件、GUI 子系统）、链接 <code>lib/</code> 下 curl 全家桶；macOS：<code>MACOSX_BUNDLE</code>（<code>Info.plist.in</code> 模板，<code>LSUIElement=true</code>、最低 11.0）</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>AutoSZUWebTests</code></td>
+                                                <td>全部</td>
+                                                <td>链接 Core 的测试程序</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>AutoSZUWebMacUITests</code></td>
+                                                <td>仅 APPLE</td>
+                                                <td><code>src/macos/ui.mm</code> 的 NSPanel 冒烟测试</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <p>选项：<code>AUTOSZUWEB_BUILD_TESTS</code>（默认 <code>ON</code>）。Linux 仅在开启测试时允许配置（<code>UNIX AND AUTOSZUWEB_BUILD_TESTS</code> 分支），否则 CMake 直接报错——Linux 不产出发布二进制。</p>
+                                </div>
+                            </div>
+
+                            <!-- 3.4 第三方依赖策略 -->
+                            <div id="sec-3-4" class="mb-4 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-plug mr-2"></i>3.4 第三方依赖策略
+                                </h3>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ul class="doc-list disc">
+                                        <li><strong>Windows</strong>：静态链接产出单文件 exe。依赖仓库 <code>lib/</code> 下的预编译 MinGW 静态库：<code>libcurl</code>、<code>ssl</code>、<code>crypto</code>、<code>nghttp2</code>、<code>nghttp3</code>、<code>ngtcp2</code>、<code>ngtcp2_crypto_libressl</code>、<code>ssh2</code>、<code>z</code>、<code>zstd</code>、<code>brotli</code>、<code>psl</code>，外加系统库 <code>ws2_32 crypt32 bcrypt wldap32 iphlpapi secur32 shell32</code>。Core 的 OpenSSL 在 <code>lib/libcrypto.a</code> 存在时直接使用，否则 <code>find_package(OpenSSL)</code>；</li>
+                                        <li><strong>macOS</strong>：动态链接 Homebrew 的 <code>curl</code>、<code>openssl@3</code>、<code>nlohmann-json</code>（构建脚本以 <code>CMAKE_PREFIX_PATH</code> 指定）。分发时 <code>package_macos.sh</code> 用 <code>dylibbundler</code> 把非系统动态库收进 <code>.app/Contents/Frameworks</code> 并改写引用，做依赖自包含校验（拒绝残留 Homebrew 路径、校验 <code>@loader_path</code>/<code>@rpath</code> 全部可解析），嵌套签名后打出 DMG；</li>
+                                        <li><strong>nlohmann/json</strong>：Core 中 <code>find_package(nlohmann_json CONFIG QUIET)</code>——MSYS2 环境没有 CMake 配置包，头文件位于默认包含路径，因此“找到才链接”是兼容写法。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 4. 核心运行流程 -->
+                        <section id="sec-4" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-play-circle mr-2"></i>4. 核心运行流程
+                            </h2>
+
+                            <!-- 4.1 main 分发 -->
+                            <div id="sec-4-1" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-random mr-2"></i>4.1 main 分发
+                                </h3>
+                                <p class="mb-2"><code>src/AutoSZUWeb.cpp</code> 的 <code>main</code> 以纯函数解析 + 显式分发组织全部入口：</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-plaintext">GetUtf8Arguments(argc, argv)     # Windows：宽字符 argv → UTF-8；其余平台透传
+        │
+Cli::Parse(args)                 # 纯函数，无副作用
+        │
+        ├─ Help         → PrepareCliConsole + PrintUsage                    → exit 0
+        ├─ UsageError   → stderr 提示 + PrintUsage                          → exit 2
+        ├─ Uninstall    → RunUninstall：确认弹窗 → Uninstall::RemoveAll     → exit 0/1
+        ├─ OneShotAuth  → RunOneShotAuth：Login 一次，控制台/弹窗输出结果    → exit 0/1
+        ├─ SetAutoAuth  → RunSetAutoAuth：写 AutoAuth + 探测常驻实例         → exit 0/1
+        └─ NormalStartup
+              ├─ GetConfigPath()（确保数据目录存在；Windows 含旧配置迁移）
+              ├─ SingleInstanceGuard 守卫（非主实例 → 静默 exit 0）
+              └─ setting.json 存在？
+                    ├─ 是 → RunMainLoop()      常驻模式
+                    └─ 否 → ConfigureNewUser() 首次配置</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">要点：</p>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ul class="doc-list disc">
+                                        <li><strong>Help / UsageError 依赖控制台</strong>：<code>PrepareCliConsole()</code> 返回 false（Windows 双击启动无控制台）时不输出任何内容，仅返回退出码——CLI 功能面向终端使用；</li>
+                                        <li><strong>OneShotAuth / SetAutoAuth / Uninstall 均跳过单实例守卫</strong>：可与常驻实例并存；输出优先走控制台，无控制台时回退 <code>AppUI::ShowMessage</code> 弹窗；</li>
+                                        <li><strong>SetAutoAuth 的常驻探测</strong>：构造一个临时 <code>SingleInstanceGuard</code> 试探锁文件——抢不到锁说明常驻实例在运行，据此提示“约 10 秒内生效”。</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 4.2 首次配置（ConfigureNewUser） -->
+                            <div id="sec-4-2" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-pencil-square-o mr-2"></i>4.2 首次配置（ConfigureNewUser）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-plaintext">桌面 userdata.txt 不存在？
+├─ 是 → 提示弹窗（可取消，取消即退出）
+│       → UserData::CreateTemplate 生成两行提示文本的模板
+│       → 程序结束（等待用户填写）
+└─ 否 → UserData::ReadCredentials 读前两行（卡号 / 密码）
+        ├─ 校验：两行非空、不以提示文本 '(' 开头、剥离 '\r'
+        → EncryptStr 加密账号与密码（失败即弹窗退出，不落盘）
+        → 写 setting.json.tmp → 原子 rename 为 setting.json（失败时删除旧文件重试一次）
+        → UserData::RemoveFile 删除桌面 userdata.txt（失败仅提示，因含明文）
+        → RunMainLoop()</code></pre>
+                            </div>
+
+                            <!-- 4.3 常驻状态机与 AutoAuth 门控 -->
+                            <div id="sec-4-3" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-refresh mr-2"></i>4.3 常驻状态机与 AutoAuth 门控
+                                </h3>
+                                <p class="mb-2"><code>RunMainLoop</code> 读取并解密凭据后，把认证与探测封装为回调交给 <code>Runtime::RunMonitorLoop</code>（默认 10 秒周期）。<code>AutoAuth</code> 开关不进入状态机本身，而是在回调闭包内每个周期重读字段实现门控：</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">const bool autoAuthEnabled = Config::ReadAutoAuthEnabled(loginPath);
+const bool online = autoAuthEnabled &amp;&amp; Login(account, password);   // 启动认证
+
+callbacks.login = [&amp;] {
+    return Config::ReadAutoAuthEnabled(loginPath) &amp;&amp; Login(account, password);
+};
+callbacks.networkCheck = [&amp;] {
+    // 关闭时视为在线保持静默；重新开启后恢复真实探测
+    return !Config::ReadAutoAuthEnabled(loginPath) || NetworkCheck();
+};
+callbacks.sleep = [](std::chrono::milliseconds d) { std::this_thread::sleep_for(d); };
+callbacks.shouldStop = [] { return false; };   // 常驻，永不主动退出
+
+Runtime::RunMonitorLoop(online ? ConnectionState::Online : ConnectionState::Offline,
+                        callbacks);</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">门控语义（<code>AutoAuth=false</code> 时<strong>完全静默</strong>，不发任何网络请求）：</p>
+                                <div class="overflow-x-auto">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>当前状态</th>
+                                                <th><code>AutoAuth = true</code></th>
+                                                <th><code>AutoAuth = false</code></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>Online</code></td>
+                                                <td><code>networkCheck()</code> 真实探测，失败转 <code>Offline</code></td>
+                                                <td>短路返回 true，保持 <code>Online</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>Offline</code></td>
+                                                <td><code>login()</code> 真实认证，成功转 <code>Online</code></td>
+                                                <td>短路返回 false，保持 <code>Offline</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <p>重新开启后的恢复路径：<code>Online</code> 态下一周期做真实探测，若实际离线转入 <code>Offline</code> 并在随后周期认证；<code>Offline</code> 态下一周期直接认证。</p>
+                                </div>
+                            </div>
+
+                            <!-- 4.4 首启弹窗（FirstBoot）与 UI 策略 -->
+                            <div id="sec-4-4" class="mb-4 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-desktop mr-2"></i>4.4 首启弹窗（FirstBoot）与 UI 策略
+                                </h3>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <p><code>AutoSZUWeb.cpp</code> 匿名命名空间持有 <code>FirstBoot</code> 标志，<code>web.cpp</code> 通过外部声明 <code>bool IsFirstBoot();</code> 读取。<code>Login</code> 成功/失败后仅在 <code>IsFirstBoot() &amp;&amp; AppUI::ShouldShowAuthenticationResult()</code> 时弹窗展示结果——Windows 保留首次认证结果弹窗（<code>ShouldShowAuthenticationResult()</code> 返回 <code>true</code>），macOS 后台运行仅写日志（返回 <code>false</code>）。OneShot 手动认证模式在入口处置 <code>FirstBoot = false</code>，抑制弹窗改用控制台输出。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 5. 认证协议实现 -->
+                        <section id="sec-5" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-key mr-2"></i>5. 认证协议实现
+                            </h2>
+
+                            <!-- 5.1 教学区 SRun -->
+                            <div id="sec-5-1" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-server mr-2"></i>5.1 教学区 SRun（<code>src/srun.cpp</code>）
+                                </h3>
+                                <p class="mb-2">对 <code>https://net.szu.edu.cn</code>（深澜 SRun 门户）的 challenge 认证，全流程复用一个 curl 句柄并启用内存 Cookie 引擎：</p>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ol class="doc-list decimal">
+                                        <li><strong>发现 ac_id</strong>：GET 首页，扫描 <code>ac_id=</code> 后的数字；失败回退 <code>"1"</code>；</li>
+                                        <li><strong>获取挑战</strong>：<code>GET /cgi-bin/get_challenge?callback=_&amp;username=&lt;账号&gt;&amp;ip=</code> → JSONP 解析出 <code>challenge</code> 与 <code>client_ip</code>；</li>
+                                        <li><strong>构造加密载荷</strong>：
+                                            <ul class="doc-list disc mt-2">
+                                                <li><code>password_md5 = HMAC-MD5(key=challenge, msg=密码)</code>，十六进制；</li>
+                                                <li><code>info = "{SRBX1}" + SrunBase64(XEncode(JSON{username, password, ip, acid, enc_ver:"srun_bx1"}, key=challenge))</code>，其中 <code>XEncode</code> 为 XXTEA 兼容实现（小端分词、可选追加原始长度），<code>SrunBase64</code> 把标准 Base64 字母表重映射到 SRun 自定义字母表 <code>LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA</code>；</li>
+                                                <li><code>chksum = SHA1(challenge‖账号‖challenge‖password_md5‖challenge‖ac_id‖challenge‖client_ip‖challenge‖"200"‖challenge‖"1"‖challenge‖info)</code>（challenge 逐段前置拼接）；</li>
+                                            </ul>
+                                        </li>
+                                        <li><strong>提交登录</strong>：<code>GET /cgi-bin/srun_portal?callback=_&amp;action=login&amp;username=…&amp;password={MD5}&lt;password_md5&gt;&amp;info=…&amp;chksum=…&amp;ac_id=…&amp;ip=…&amp;n=200&amp;type=1&amp;os=Windows&amp;name=Windows&amp;double_stack=0</code>；</li>
+                                        <li><strong>成功判定</strong>：<code>error=="ok"</code> ‖ <code>res=="ok"</code> ‖ <code>st</code> 为 <code>1</code>/<code>true</code>/<code>"1"</code>。</li>
+                                    </ol>
+                                </div>
+                                <p class="mt-4">实现约束：TLS 证书校验关闭（校园自签环境）；连接超时 5 s、总超时 12 s；请求带 Chrome UA。</p>
+                            </div>
+
+                            <!-- 5.2 宿舍区 ePortal -->
+                            <div id="sec-5-2" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-bed mr-2"></i>5.2 宿舍区 ePortal（<code>src/web.cpp</code> 的 <code>LoginDormitory</code>）
+                                </h3>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <p><code>GET http://172.30.255.42:801/eportal/portal/login?user_account=%2C0%2C&lt;URL编码账号&gt;&amp;user_password=&lt;URL编码密码&gt;</code>。账号密码均经 <code>curl_easy_escape</code> 编码；响应形如 <code>(...)</code> 包裹的 JSON，剥壳解析后判定成功：<code>result == 0</code> ‖ <code>msg</code> 含“认证成功”。连接超时 5 s、总超时 12 s。</p>
+                                </div>
+                            </div>
+
+                            <!-- 5.3 连通性探测与本机 IP -->
+                            <div id="sec-5-3" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-signal mr-2"></i>5.3 连通性探测与本机 IP（<code>include/network.h</code>）
+                                </h3>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ul class="doc-list disc">
+                                        <li><code>NetworkCheck</code>：依次对 <code>{119.29.29.29:53, 223.5.5.5:53, 114.114.114.114:53}</code> 做 TCP 连接探测，任一成功即在线；</li>
+                                        <li><code>GetLocalIp</code>：创建 UDP socket 并 <code>connect 8.8.8.8:53</code>（不发包，仅让系统选择路由），再 <code>getsockname</code> 取本机出口 IPv4；失败返回空串，仅用于成功日志记录；</li>
+                                        <li>Windows 实现（<code>src/windows/network.cpp</code>）用 Winsock 并处理 <code>WSAStartup</code>；macOS/Linux 共用 <code>src/posix/network.cpp</code> 的 BSD socket 实现。</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 5.4 认证日志 -->
+                            <div id="sec-5-4" class="mb-4 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-file-text-o mr-2"></i>5.4 认证日志（<code>src/sys.cpp</code> 的 <code>WriteAuthLog</code>）
+                                </h3>
+                                <p class="mb-2">追加写入 <code>&lt;数据目录&gt;/logs/auth_YYYY-MM-DD.log</code>，格式：</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-plaintext">[YYYY-MM-DD HH:MM:SS] 方式=&lt;method&gt; 结果=成功|失败 [IP=&lt;ip&gt;] [详情=&lt;note&gt;|原因=&lt;reason&gt;]</code></pre>
+                                <p class="mt-4"><code>method</code> 取值：<code>SRun(教学区)</code> / <code>ePortal(宿舍区)</code> / <code>SRun→ePortal</code>（双失败）/ <code>初始化</code>（curl 初始化失败）。时间取本地时间（Windows 用 <code>GetLocalTime</code>，其余 <code>localtime_r</code>）。</p>
+                            </div>
+                        </section>
+
+                        <!-- 6. 凭据安全设计 -->
+                        <section id="sec-6" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-shield mr-2"></i>6. 凭据安全设计
+                            </h2>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>平台</th>
+                                            <th>方案</th>
+                                            <th>密文格式（存于 setting.json）</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-semibold">Windows</td>
+                                            <td>DPAPI：<code>CryptProtectData</code> / <code>CryptUnprotectData</code>（<code>CRYPTPROTECT_UI_FORBIDDEN</code>，描述串 <code>AutoSZUWeb</code>），密文绑定当前 Windows 用户，无独立密钥存储</td>
+                                            <td>Base64(DPAPI 密文)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">macOS</td>
+                                            <td>登录钥匙串保存 32 字节随机密钥（<code>kSecClassGenericPassword</code>，service <code>com.autoszuweb.AutoSZUWeb</code>，account <code>credential-encryption-key</code>；首次自动生成，<code>SecItemDuplicateItem</code> 竞态时回退重读）；加密用随机 IV 的 AES-256-GCM</td>
+                                            <td><code>v1:</code> + Base64(IV ‖ 密文 ‖ GCM tag)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">Linux（桩）</td>
+                                            <td>固定 32 字节测试密钥（<code>AutoSZUWeb-Linux-Test-Key-000001</code>），仅用于逻辑测试</td>
+                                            <td>同 macOS 格式</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-6">
+                                <p>AES-GCM 与 Base64 的单份实现放在 Core 内部共享模块 <code>src/internal/credential_crypto</code>（<code>CredentialCrypto</code> 命名空间），供各平台 <code>sys.cpp</code> 的 <code>EncryptStr</code>/<code>DecryptStr</code> 复用，并维护 <code>thread_local</code> 错误状态（<code>SetError</code>/<code>ClearError</code>/<code>GetError</code>，经 <code>GetCredentialError()</code> 对外查询）。</p>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                <i class="fa fa-exclamation-triangle mr-2"></i>安全边界与已知限制
+                            </h3>
+                            <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                <ul class="doc-list disc">
+                                    <li>凭据不上传任何第三方；认证请求仅按校园网协议发给校内认证服务器；</li>
+                                    <li>ePortal 的密码参数做 URL 编码；SRun 请求中的密码只以 HMAC-MD5 / XXTEA 加密形态出现；</li>
+                                    <li>与当前用户同安全上下文的恶意程序仍可调用 DPAPI / 钥匙串 API 解密，设备安全是前提；</li>
+                                    <li>命令行手动认证的密码为明文（Shell 历史 / 进程列表可见），仅面向手动临时使用；</li>
+                                    <li>macOS 正式分发应完成 Developer ID 签名并复核钥匙串访问控制。</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <!-- 7. 模块 API 参考 -->
+                        <section id="sec-7" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-code mr-2"></i>7. 模块 API 参考
+                            </h2>
+                            <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-6">
+                                <p>以下为 <code>include/</code> 全部公共模块（及内部共享模块）的接口语义。除特别说明外，字符串均为 UTF-8，路径为 <code>std::filesystem::path</code>。</p>
+                            </div>
+
+                            <!-- 7.1 Cli -->
+                            <div id="sec-7-1" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-terminal mr-2"></i>7.1 Cli — 命令行解析（<code>include/cli.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace Cli
+{
+    enum class Action {
+        NormalStartup,  // 无参数：后台常驻
+        OneShotAuth,    // 卡号 密码：手动认证一次
+        SetAutoAuth,    // --auto true|false
+        Uninstall,      // --uninstall
+        Help,           // --help / -h
+        UsageError      // 未知或多余参数
+    };
+
+    struct Parsed {
+        Action action = Action::NormalStartup;
+        std::string account;        // OneShotAuth 时有效
+        std::string password;       // OneShotAuth 时有效
+        bool autoAuthEnabled = false; // SetAutoAuth 时有效
+    };
+
+    Parsed Parse(const std::vector&lt;std::string&gt;&amp; args); // 不含程序名，纯函数
+    void PrintUsage(std::ostream&amp; output);
+}</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">解析规则（<code>src/cli.cpp</code>）：</p>
+                                <div class="overflow-x-auto">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>参数</th>
+                                                <th>结果</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>（空）</td>
+                                                <td><code>NormalStartup</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>--uninstall</code></td>
+                                                <td><code>Uninstall</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>--help</code> / <code>-h</code></td>
+                                                <td><code>Help</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td>其他单个参数</td>
+                                                <td><code>UsageError</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>--auto</code> + <code>true</code>/<code>false</code>（不区分大小写）</td>
+                                                <td><code>SetAutoAuth</code>（<code>autoAuthEnabled</code> 置位）</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>--auto</code> + 其他</td>
+                                                <td><code>UsageError</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td>两个均不以 <code>-</code> 开头的参数</td>
+                                                <td><code>OneShotAuth</code>（卡号、密码）</td>
+                                            </tr>
+                                            <tr>
+                                                <td>其余两参数及以上</td>
+                                                <td><code>UsageError</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">使用示例：</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">const Cli::Parsed parsed = Cli::Parse(GetUtf8Arguments(argc, argv));
+if (parsed.action == Cli::Action::UsageError)
+    return 2;</code></pre>
+                            </div>
+
+                            <!-- 7.2 Config -->
+                            <div id="sec-7-2" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-toggle-on mr-2"></i>7.2 Config — AutoAuth 字段读写（<code>include/config.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace Config
+{
+    // 读 setting.json 的 AutoAuth；文件缺失 / 字段缺失 / 解析失败一律返回 true（默认开启，兼容旧配置）。
+    bool ReadAutoAuthEnabled(const std::filesystem::path&amp; configPath);
+
+    // 设置 AutoAuth 并原子写回（tmp + rename，失败回退 remove+rename），保留其他字段。
+    // 配置文件不存在或 JSON 格式错误时返回 false，error 说明原因。
+    bool WriteAutoAuthEnabled(const std::filesystem::path&amp; configPath,
+                              bool enabled, std::string&amp; error);
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p>常驻实例的动态开关依赖 <code>ReadAutoAuthEnabled</code> 每周期重读（见 <a href="#sec-4-3" class="text-primary font-semibold hover:underline">4.3</a>）。写回使用 <code>dump(2)</code> 缩进格式。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.3 Uninstall -->
+                            <div id="sec-7-3" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-trash-o mr-2"></i>7.3 Uninstall — 卸载编排（<code>include/uninstall.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace Uninstall
+{
+    // 删除共享数据：数据目录（setting.json、logs/、实例锁、自启动副本）逐项
+    // remove_all，被占用条目记入 leftovers；随后删除桌面 userdata.txt。
+    void RemoveSharedData(std::vector&lt;std::filesystem::path&gt;&amp; leftovers);
+
+    // 完全卸载编排：
+    //   RemoveAutoStart() → RemoveSharedData() → RemovePlatformResidue()
+    //   → leftovers 非空则汇总“未能删除（可能被占用）”并返回 false。
+    bool RemoveAll(std::string&amp; error);
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p>顺序保证先摘自启动：即使后续步骤失败，也不会残留开机自启。逐项删除（而非整目录 <code>remove_all</code>）是为了把被占用文件（如运行中的 exe 副本）精确记入 leftovers，交给平台善后（Windows 延迟删除）。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.4 Sys -->
+                            <div id="sec-7-4" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-puzzle-piece mr-2"></i>7.4 Sys — 平台钩子（<code>include/sys.h</code>）
+                                </h3>
+                                <p class="mb-2">Core 定义接口，<code>src/windows|macos|linux/sys.cpp</code> 提供实现；跨平台部分（<code>WriteAuthLog</code>、<code>GetCredentialError</code>）直接在 <code>src/sys.cpp</code>。</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">void SetAutoStart();               // 注册当前用户登录自启
+void RemoveAutoStart();            // 移除自启动注册
+bool RemoveCredentialKey(std::string&amp; error);   // 删除平台凭据密钥
+bool RemovePlatformResidue(std::vector&lt;fs::path&gt;&amp; leftovers, std::string&amp; error);
+std::vector&lt;std::string&gt; GetUtf8Arguments(int argc, char* argv[]); // UTF-8 参数（不含程序名）
+bool PrepareCliConsole();          // CLI 模式控制台准备
+std::string EncryptStr(const std::string&amp; plaintext);   // 平台凭据加密
+std::string DecryptStr(const std::string&amp; ciphertext);  // 平台凭据解密
+std::string GetCredentialError();  // 最近一次凭据操作失败原因
+void WriteAuthLog(const std::string&amp; method, bool success,
+                  const std::string&amp; deviceIp, const std::string&amp; message);</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4">各钩子的平台行为：</p>
+                                <div class="overflow-x-auto">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>钩子</th>
+                                                <th>Windows</th>
+                                                <th>macOS</th>
+                                                <th>Linux（桩）</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="font-semibold"><code>SetAutoStart</code></td>
+                                                <td>复制自身到 <code>%APPDATA%\AutoSZUWeb\AutoSZUWeb.exe</code>，写 HKCU <code>Run</code> 值 <code>AutoSZUWeb</code> 指向副本</td>
+                                                <td>重写 <code>~/Library/LaunchAgents/com.autoszuweb.AutoSZUWeb.plist</code>（RunAtLoad，stdout/stderr 重定向到 logs/），权限 600</td>
+                                                <td>空实现</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>RemoveAutoStart</code></td>
+                                                <td><code>RegDeleteValueW</code>（<code>ERROR_FILE_NOT_FOUND</code> 视为成功）</td>
+                                                <td>删除 plist（尊重 <code>AUTOSZUWEB_LAUNCH_AGENT_DIR</code> 覆盖）</td>
+                                                <td>空实现</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>RemoveCredentialKey</code></td>
+                                                <td>无独立密钥，恒成功</td>
+                                                <td><code>SecItemDelete</code> 钥匙串条目（<code>errSecItemNotFound</code> 视为成功）</td>
+                                                <td>恒成功</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>RemovePlatformResidue</code></td>
+                                                <td>删遗留 <code>%APPDATA%\autoWEB.json</code>；对运行中 exe 安排延迟删除（<code>cmd /c ping -n 3 … &amp; del</code>，<code>CREATE_NO_WINDOW</code>；失败回退 <code>MoveFileExW(MOVEFILE_DELAY_UNTIL_REBOOT)</code>）并从 leftovers 移除；处理 AppData 自启动副本</td>
+                                                <td><code>getppid() != 1</code> 时 <code>launchctl bootout gui/&lt;uid&gt;/&lt;label&gt;</code>（终止 launchd 实例，自身是 launchd 子进程则跳过避免自杀）→ 删钥匙串 → 删 <code>.app</code> 包（路径含 <code>.app/Contents/MacOS/</code> 时定位包根）</td>
+                                                <td>空实现</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>GetUtf8Arguments</code></td>
+                                                <td><code>GetCommandLineW</code> + <code>CommandLineToArgvW</code> + <code>WideCharToMultiByte(CP_UTF8)</code>（main 的 ANSI argv 中文会乱码）</td>
+                                                <td>argv 本身即 UTF-8，透传</td>
+                                                <td>透传</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>PrepareCliConsole</code></td>
+                                                <td>stdout 句柄为管道/文件（重定向，Git Bash 场景）→ true；否则 <code>AttachConsole(ATTACH_PARENT_PROCESS)</code> + <code>freopen("CONOUT$")</code>（cmd/PowerShell）→ true；均失败（双击启动）→ false</td>
+                                                <td>恒 true</td>
+                                                <td>恒 true</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold"><code>EncryptStr</code> / <code>DecryptStr</code></td>
+                                                <td>DPAPI（见第 6 节）</td>
+                                                <td>钥匙串密钥 + AES-256-GCM</td>
+                                                <td>固定测试密钥 + AES-256-GCM</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 7.5 Web / Srun -->
+                            <div id="sec-7-5" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-sign-in mr-2"></i>7.5 Web / Srun — 认证入口（<code>include/web.h</code>、<code>include/srun.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">// web.h
+bool Login(const std::string&amp; account, const std::string&amp; password);
+bool Login(const std::string&amp; account, const std::string&amp; password, std::string&amp; message);
+
+// srun.h
+bool SrunLogin(const std::string&amp; account, const std::string&amp; password, std::string&amp; message);</code></pre>
+                                <p class="font-semibold text-darkBlue mb-2 mt-4"><code>Login</code> 的编排（<code>src/web.cpp</code>）：</p>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <ol class="doc-list decimal">
+                                        <li><code>curl_global_init</code>（进程内一次，失败即失败）；</li>
+                                        <li>先 <code>SrunLogin</code>（教学/办公区）；成功 → <code>message</code> 为成功信息，方式记 <code>SRun(教学区)</code>；</li>
+                                        <li>失败 → <code>LoginDormitory</code>（宿舍区 ePortal）；成功方式记 <code>ePortal(宿舍区)</code>，双失败方式记 <code>SRun→ePortal</code> 且 <code>message</code> 合并两个阶段原因（<code>"教学区认证失败: …\n宿舍区认证失败: …"</code>）；</li>
+                                        <li>每次调用写认证日志（成功附 <code>GetLocalIp()</code>）；</li>
+                                        <li>首启（<code>IsFirstBoot()</code>）且平台允许（<code>ShouldShowAuthenticationResult()</code>）时弹窗展示结果。</li>
+                                    </ol>
+                                </div>
+                                <p class="mt-4">2 参重载转发 3 参版本，行为一致。协议细节见<a href="#sec-5" class="text-primary font-semibold hover:underline">第 5 节</a>。</p>
+                            </div>
+
+                            <!-- 7.6 Network -->
+                            <div id="sec-7-6" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-signal mr-2"></i>7.6 Network — 连通性探测（<code>include/network.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">bool ProbeTcpEndpoint(const std::string&amp; ip, int port, int timeoutMs = 2000); // 单端点 TCP 探测
+bool NetworkCheck(int timeoutMs = 2000);  // 多目标任一可达即在线
+std::string GetLocalIp();                 // 系统路由选择的出口 IPv4，失败为空</code></pre>
+                            </div>
+
+                            <!-- 7.7 Runtime -->
+                            <div id="sec-7-7" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-circle-o-notch mr-2"></i>7.7 Runtime — 监控状态机（<code>include/runtime.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace Runtime
+{
+    enum class ConnectionState { Online, Offline };
+
+    struct MonitorCallbacks {
+        std::function&lt;bool()&gt; login;        // 必填：离线态认证，true → Online
+        std::function&lt;bool()&gt; networkCheck; // 必填：在线态探测，false → Offline
+        std::function&lt;void(std::chrono::milliseconds)&gt; sleep; // 必填
+        std::function&lt;bool()&gt; shouldStop;   // 必填
+    };
+
+    ConnectionState RunIteration(ConnectionState state, const MonitorCallbacks&amp; callbacks);
+    void RunMonitorLoop(ConnectionState initialState, const MonitorCallbacks&amp; callbacks,
+                        std::chrono::milliseconds interval = std::chrono::seconds(10));
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4 mb-4">
+                                    <ul class="doc-list disc">
+                                        <li><code>RunIteration</code> 是单步纯逻辑（回调为空抛 <code>std::invalid_argument</code>）：<code>Online → networkCheck() ? Online : Offline</code>；<code>Offline → login() ? Online : Offline</code>；</li>
+                                        <li><code>RunMonitorLoop</code>：循环 <code>RunIteration</code> + <code>sleep(interval)</code>，直到 <code>shouldStop()</code> 返回 true；<code>sleep</code>/<code>shouldStop</code> 为空抛异常；</li>
+                                        <li>状态机本身不感知 AutoAuth、不感知认证协议——门控与协议全部由回调闭包注入（见 <a href="#sec-4-3" class="text-primary font-semibold hover:underline">4.3</a>），这是 Core 可全平台单测的关键。</li>
+                                    </ul>
+                                </div>
+                                <p class="font-semibold text-darkBlue mb-2">使用示例：</p>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">Runtime::MonitorCallbacks cb;
+cb.login        = [&amp;] { return Login(account, password); };
+cb.networkCheck = [] { return NetworkCheck(); };
+cb.sleep        = [](std::chrono::milliseconds d) { std::this_thread::sleep_for(d); };
+cb.shouldStop   = [] { return false; };
+Runtime::RunMonitorLoop(Runtime::ConnectionState::Online, cb);</code></pre>
+                            </div>
+
+                            <!-- 7.8 SingleInstance -->
+                            <div id="sec-7-8" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-lock mr-2"></i>7.8 SingleInstance — 单实例守卫（<code>include/single_instance.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace Runtime
+{
+    class SingleInstanceGuard
+    {
+    public:
+        explicit SingleInstanceGuard(const std::filesystem::path&amp; lockPath);
+        ~SingleInstanceGuard();                       // 释放锁
+        // 不可拷贝、不可移动
+        bool IsPrimary() const;   // true = 抢到锁（首个实例）
+    };
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p>实现：Windows（<code>src/windows/single_instance.cpp</code>）以锁文件绝对路径派生名称的<strong>命名互斥体</strong>（<code>CreateMutexW</code>，跨进程、无残留文件句柄问题）；macOS/Linux（<code>src/posix/single_instance.cpp</code>）对锁文件 <code>open(O_RDWR|O_CREAT, 0600)</code> 后 <code>flock(LOCK_EX|LOCK_NB)</code>，锁文件内容仅写入持有者 PID 作诊断（<code>flock</code> 而非文件存在性持有锁）。两种实现的锁路径语义一致：<code>&lt;数据目录&gt;/AutoSZUWeb.instance.lock</code>。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.9 UserData -->
+                            <div id="sec-7-9" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-file-text-o mr-2"></i>7.9 UserData — userdata.txt 生命周期（<code>include/user_data.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace UserData
+{
+    bool CreateTemplate(const fs::path&amp; path, std::string&amp; error); // 生成两行提示文本模板
+    bool ReadCredentials(const fs::path&amp; path, std::string&amp; account,
+                         std::string&amp; password, std::string&amp; error); // 读前两行
+    bool RemoveFile(const fs::path&amp; path, std::string&amp; error);     // 删除配置临时文件
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p><code>ReadCredentials</code> 的校验：两行均存在、非空、不以 <code>(</code> 开头（提示文本未替换）、剥离行尾 <code>\r</code>。返回前保证文件已关闭（避免 Windows 句柄占用）。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.10 FilePath -->
+                            <div id="sec-7-10" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-folder-open mr-2"></i>7.10 FilePath — 路径解析（<code>include/file_path.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">fs::path GetUsersFolderPath();  // 数据根目录
+fs::path GetDesktopPath();      // 用户桌面
+fs::path GetConfigPath();       // &lt;数据根&gt;/AutoSZUWeb/setting.json（确保目录存在）</code></pre>
+                                <div class="overflow-x-auto mt-4">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>平台</th>
+                                                <th>数据根目录</th>
+                                                <th>桌面</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="font-semibold">Windows</td>
+                                                <td><code>%APPDATA%</code>（<code>CSIDL_APPDATA</code>）</td>
+                                                <td><code>CSIDL_DESKTOP</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold">macOS</td>
+                                                <td><code>~/Library/Application Support</code></td>
+                                                <td><code>~/Desktop</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold">Linux（桩）</td>
+                                                <td><code>~/.local/share</code></td>
+                                                <td><code>~/Desktop</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                    <p>测试覆盖：<code>AUTOSZUWEB_DATA_ROOT</code> 与 <code>AUTOSZUWEB_DESKTOP_ROOT</code> 环境变量分别覆盖数据根与桌面路径。Windows 的 <code>GetConfigPath</code> 额外做旧版 <code>autoWEB.json</code> → <code>setting.json</code> 的一次性迁移（存在旧文件且新文件不存在时复制并删除旧文件）。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.11 AppUI -->
+                            <div id="sec-7-11" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-comment mr-2"></i>7.11 AppUI — 跨平台消息框（<code>include/app_ui.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace AppUI
+{
+    enum class Button { Ok, Cancel };
+
+    Button ShowMessage(const std::string&amp; text, const std::string&amp; title = "提示",
+                       bool allowCancel = false);
+    bool ShouldShowAuthenticationResult();  // 首次认证结果是否弹窗
+}</code></pre>
+                                <div class="overflow-x-auto mt-4">
+                                    <table class="doc-table">
+                                        <thead>
+                                            <tr>
+                                                <th>平台</th>
+                                                <th><code>ShowMessage</code> 实现</th>
+                                                <th><code>ShouldShowAuthenticationResult</code></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="font-semibold">Windows</td>
+                                                <td><code>MessageBoxW</code>（UTF-8 → UTF-16）；仅 <code>IDOK</code> 映射 <code>Ok</code>，调用失败映射 <code>Cancel</code>（失败安全，避免误确认破坏性对话框）</td>
+                                                <td><code>true</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold">macOS</td>
+                                                <td><code>src/macos/ui.mm</code>：自绘 <code>NSPanel</code> 模态面板（标题/正文/按钮的 <code>NSStackView</code> 布局），弹窗期间临时切换 <code>NSApplicationActivationPolicyRegular</code> 并激活，结束恢复；关闭按钮与 ESC 等同取消</td>
+                                                <td><code>false</code></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-semibold">Linux（桩）</td>
+                                                <td>输出 <code>[标题] 文本</code> 到 stdout；<code>AUTOSZUWEB_UI_RESPONSE=cancel</code> 模拟取消（测试用）</td>
+                                                <td><code>false</code></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- 7.12 PlatformSupport -->
+                            <div id="sec-7-12" class="mb-10 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-wrench mr-2"></i>7.12 PlatformSupport — 无副作用工具（<code>include/platform_support.h</code>）
+                                </h3>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace PlatformSupport
+{
+    std::string XmlEscape(const std::string&amp; value);   // XML 实体转义
+    std::string BuildLaunchAgentPlist(const std::string&amp; executablePath,
+                                      const std::string&amp; stdoutPath,
+                                      const std::string&amp; stderrPath);
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p><code>BuildLaunchAgentPlist</code> 生成 macOS LaunchAgent plist 全文：Label <code>com.autoszuweb.AutoSZUWeb</code>、<code>RunAtLoad=true</code>、<code>KeepAlive=false</code>、<code>LimitLoadToSessionType=Aqua</code>、可执行文件路径与标准输出/错误重定向均经 <code>XmlEscape</code>。</p>
+                                </div>
+                            </div>
+
+                            <!-- 7.13 CredentialCrypto -->
+                            <div id="sec-7-13" class="mb-4 anchor-offset">
+                                <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                                    <i class="fa fa-key mr-2"></i>7.13 CredentialCrypto — 内部共享加密模块（<code>src/internal/credential_crypto.h</code>）
+                                </h3>
+                                <div class="bg-lightBlue/40 border-l-4 border-primary rounded-lg p-4 mb-4 shadow-anime-sm">
+                                    <p class="text-slate-700">
+                                        <i class="fa fa-info-circle text-primary mr-2"></i>
+                                        非公共 API（不入 <code>include/</code>），供各平台 <code>sys.cpp</code> 复用，保证加解密实现单份。
+                                    </p>
+                                </div>
+                                <pre class="hljs rounded overflow-x-auto"><code class="language-cpp">namespace CredentialCrypto
+{
+    constexpr size_t kAesKeySize = 32;
+
+    std::string Base64Encode(const unsigned char* data, size_t length);
+    std::vector&lt;unsigned char&gt; Base64Decode(const std::string&amp; encoded);
+
+    // 密文格式 "v1:" + Base64(iv || ciphertext || tag)；失败返回空串并记录错误
+    std::string EncryptAesGcm(const std::vector&lt;unsigned char&gt;&amp; key, const std::string&amp; plaintext);
+    std::vector&lt;unsigned char&gt; DecryptAesGcm(const std::vector&lt;unsigned char&gt;&amp; key,
+                                             const std::string&amp; encoded);
+
+    // thread_local 错误状态
+    void SetError(const std::string&amp; message);
+    void ClearError();
+    const std::string&amp; GetError();
+}</code></pre>
+                                <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mt-4">
+                                    <p>AES-256-GCM 基于 OpenSSL EVP；密钥长度恒为 32 字节（<code>kAesKeySize</code>），IV 随机生成并随密文存储。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 8. 平台差异对照 -->
+                        <section id="sec-8" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-columns mr-2"></i>8. 平台差异对照
+                            </h2>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>维度</th>
+                                            <th>Windows</th>
+                                            <th>macOS</th>
+                                            <th>Linux（测试桩）</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-semibold">产物</td>
+                                            <td>GUI 子系统单文件 exe（<code>-static -mwindows</code>，含图标）</td>
+                                            <td><code>.app</code> bundle（<code>LSUIElement</code>，无 Dock 图标）+ 可选 DMG</td>
+                                            <td>仅测试二进制</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">数据目录</td>
+                                            <td><code>%APPDATA%\AutoSZUWeb\</code></td>
+                                            <td><code>~/Library/Application Support/AutoSZUWeb/</code></td>
+                                            <td><code>~/.local/share/AutoSZUWeb/</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">自启动</td>
+                                            <td>HKCU Run 注册表值 + <code>%APPDATA%</code> 自启动副本</td>
+                                            <td>用户级 LaunchAgent plist（RunAtLoad）</td>
+                                            <td>无</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">凭据保护</td>
+                                            <td>DPAPI（绑定用户，无独立密钥）</td>
+                                            <td>钥匙串密钥 + AES-256-GCM</td>
+                                            <td>固定测试密钥</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">消息框</td>
+                                            <td><code>MessageBoxW</code></td>
+                                            <td>自绘 <code>NSPanel</code> 模态</td>
+                                            <td>stdout</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">首次认证弹窗</td>
+                                            <td>显示</td>
+                                            <td>不显示（仅日志）</td>
+                                            <td>不显示</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">网络</td>
+                                            <td>Winsock（<code>src/windows/network.cpp</code>）</td>
+                                            <td>BSD socket（<code>src/posix/network.cpp</code>）</td>
+                                            <td>同 macOS（posix 共用）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">单实例</td>
+                                            <td>命名互斥体</td>
+                                            <td><code>flock</code> 锁文件</td>
+                                            <td>同 macOS（posix 共用）</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">argv 编码</td>
+                                            <td>ANSI → 需宽字符 API 转 UTF-8</td>
+                                            <td>原生 UTF-8</td>
+                                            <td>原生 UTF-8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">CLI 控制台</td>
+                                            <td>句柄检测 + <code>AttachConsole</code></td>
+                                            <td>恒可用</td>
+                                            <td>恒可用</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">卸载善后</td>
+                                            <td>延迟自删运行中 exe（ping+del / 重启删除）</td>
+                                            <td><code>launchctl bootout</code> + 钥匙串 + <code>.app</code> 删除</td>
+                                            <td>无</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold">旧配置迁移</td>
+                                            <td><code>autoWEB.json</code> → <code>setting.json</code></td>
+                                            <td>无</td>
+                                            <td>无</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <!-- 9. 测试体系 -->
+                        <section id="sec-9" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-flask mr-2"></i>9. 测试体系
+                            </h2>
+                            <p class="mb-2">测试入口 <code>tests/test_main.cpp</code>（链接 <code>AutoSZUWebCore</code>，三平台可跑），逐项断言输出 <code>[PASS]</code>/<code>[FAIL]</code>，任一失败进程返回非零。测试组：</p>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>测试组</th>
+                                            <th>覆盖</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>TestEncryption</code></td>
+                                            <td>各平台 <code>EncryptStr</code>/<code>DecryptStr</code> 往返、错误状态</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestCli</code></td>
+                                            <td>全部解析规则、用法文本、<code>GetUtf8Arguments</code> 往返、<code>PrepareCliConsole</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestAuthenticationResultUiPolicy</code></td>
+                                            <td><code>ShouldShowAuthenticationResult</code> 平台策略</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestUserDataFileLifecycle</code></td>
+                                            <td>userdata.txt 模板生成 → 读取校验（空行/提示文本/<code>\r</code>）→ 删除</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestPathsAndLogging</code></td>
+                                            <td>路径解析 + <code>WriteAuthLog</code> 落盘格式</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestUninstallSharedData</code></td>
+                                            <td>伪造数据目录与桌面文件 → <code>Uninstall::RemoveAll</code> → 验证删除</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestAutoAuthConfig</code></td>
+                                            <td>AutoAuth 读写往返、字段保留、默认值、损坏文件拒绝写入、无 <code>.tmp</code> 残留</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestLaunchAgentPlist</code></td>
+                                            <td>plist 生成与 XML 转义</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestSingleInstanceGuard</code></td>
+                                            <td>同进程内守卫互斥语义</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestRuntimeStateMachine</code></td>
+                                            <td><code>RunIteration</code>/<code>RunMonitorLoop</code> 状态转移与回调校验</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>TestLoopbackProbe</code></td>
+                                            <td><code>ProbeTcpEndpoint</code> 对本机监听端口探测</td>
+                                        </tr>
+                                        <tr>
+                                            <td>macOS 专属块</td>
+                                            <td><code>SetAutoStart</code> → <code>RemoveAutoStart</code> 往返；钥匙串测试（设置 <code>AUTOSZUWEB_KEYCHAIN_SERVICE</code> 时运行：删钥后旧密文不可解、密钥自动重建）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="font-semibold text-darkBlue mb-2 mt-4">测试用环境变量（隔离真实系统状态）：</p>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>变量</th>
+                                            <th>作用</th>
+                                            <th>平台</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>AUTOSZUWEB_DATA_ROOT</code></td>
+                                            <td>覆盖数据根目录（配置/日志/锁文件重定向到临时目录）</td>
+                                            <td>全部</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>AUTOSZUWEB_DESKTOP_ROOT</code></td>
+                                            <td>覆盖桌面路径（userdata.txt 重定向）</td>
+                                            <td>全部</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>AUTOSZUWEB_KEYCHAIN_SERVICE</code></td>
+                                            <td>覆盖钥匙串 service 名（CI 用独立 keychain + 独立 service，避免污染真实凭据；本机未设置则跳过钥匙串测试）</td>
+                                            <td>macOS</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>AUTOSZUWEB_LAUNCH_AGENT_DIR</code></td>
+                                            <td>覆盖 LaunchAgent 目录（plist 写入测试目录）</td>
+                                            <td>macOS</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>AUTOSZUWEB_UI_RESPONSE</code></td>
+                                            <td>设为 <code>cancel</code> 时桩 UI 返回取消（测试取消路径）</td>
+                                            <td>Linux 桩</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="font-semibold text-darkBlue mb-2 mt-4">运行方式：</p>
+                            <pre class="hljs rounded overflow-x-auto"><code class="language-bash"># Windows（MSYS2 UCRT64）
+build.bat                        # 或手动 cmake -DAUTOSZUWEB_BUILD_TESTS=ON + ctest
+
+# macOS
+./build_macos.sh                 # 构建 + ctest（含 AutoSZUWebMacUITests）
+
+# Linux / WSL
+./build.sh                       # 平台桩逻辑测试</code></pre>
+                            <p class="mt-4"><code>tests/mac_ui_test.mm</code>（目标 <code>AutoSZUWebMacUITests</code>）为 macOS NSPanel 的冒烟测试，15 秒超时。</p>
+                        </section>
+
+                        <!-- 10. 持续集成（CI） -->
+                        <section id="sec-10" class="doc-section mb-12 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-github mr-2"></i>10. 持续集成（CI）
+                            </h2>
+                            <p class="mb-2"><code>.github/workflows/build.yml</code>，push 与 pull_request 触发，三个 job（<code>fail-fast: false</code>）：</p>
+                            <div class="overflow-x-auto">
+                                <table class="doc-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Job</th>
+                                            <th>Runner</th>
+                                            <th>步骤要点</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-semibold"><code>windows</code></td>
+                                            <td><code>windows-latest</code> + MSYS2 UCRT64</td>
+                                            <td>安装 mingw-w64-ucrt-x86_64 全套依赖 → Ninja 构建 + ctest → 上传 <code>AutoSZUWeb.exe</code> 产物</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold"><code>macos (arm64)</code></td>
+                                            <td><code>macos-15</code></td>
+                                            <td>brew 依赖 → 构建 + ctest → app bundle 校验 → 打 DMG → 上传产物</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-semibold"><code>macos (x86_64)</code></td>
+                                            <td><code>macos-15-intel</code></td>
+                                            <td>同上（Intel 镜像）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="font-semibold text-darkBlue mb-2 mt-4">macOS job 的关键设计：</p>
+                            <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                                <ul class="doc-list disc">
+                                    <li><strong>钥匙串隔离</strong>：创建专用测试 keychain 并设为默认，<code>AUTOSZUWEB_KEYCHAIN_SERVICE</code> 按 <code>run_id.run_attempt.arch</code> 唯一命名，测试后校验条目存在再删除 keychain（<code>if: always()</code> 兜底清理）；</li>
+                                    <li><strong>LaunchAgent 重定向</strong>：<code>AUTOSZUWEB_LAUNCH_AGENT_DIR</code> 指向 runner 临时目录，不碰真实 <code>~/Library/LaunchAgents</code>；</li>
+                                    <li><strong>bundle 校验</strong>：可执行位、<code>lipo -info</code> 断言架构、<code>plutil -lint</code> 校验 plist、断言 <code>LSUIElement=true</code>；</li>
+                                    <li><strong>DMG 打包</strong>：调 <code>package_macos.sh</code>（<code>APP_SOURCE</code> 指向 CI 构建产物）产出 ad-hoc 签名的自包含测试 DMG。</li>
+                                </ul>
+                            </div>
+                            <p class="mt-4">Runner 选型备注：<code>macos-13</code>（Intel）已于 2025-12 退役，<code>macos-14</code> 将于 2026-11-02 退役，因此 arm64 使用 <code>macos-15</code>、Intel 使用 <code>macos-15-intel</code>。</p>
+                        </section>
+
+                        <!-- 11. 扩展指南 -->
+                        <section id="sec-11" class="doc-section mb-6 anchor-offset">
+                            <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                                <i class="fa fa-puzzle-piece mr-2"></i>11. 扩展指南
+                            </h2>
+
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm mb-4">
+                                <h3 class="font-bold text-primary mb-2 flex items-center">
+                                    <i class="fa fa-plus-square-o mr-2"></i>新增平台钩子
+                                </h3>
+                                <p class="text-slate-600 text-sm mb-2">如新增一个自启动/凭据相关的系统能力：</p>
+                                <ol class="doc-list decimal">
+                                    <li>在 <code>include/sys.h</code>（或对应模块头）声明接口，注释写清全部平台的语义约定；</li>
+                                    <li>在 <code>src/windows/sys.cpp</code>、<code>src/macos/sys.cpp</code> 实现真实行为，<code>src/linux/sys.cpp</code> 提供桩；</li>
+                                    <li>为可无副作用验证的部分补测试（利用<a href="#sec-9" class="text-primary font-semibold hover:underline">第 9 节</a>的环境变量重定向）；写真实注册表/钥匙串的操作不在单测中执行，靠 CI 与手动冒烟覆盖。</li>
+                                </ol>
+                            </div>
+
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm mb-4">
+                                <h3 class="font-bold text-primary mb-2 flex items-center">
+                                    <i class="fa fa-laptop mr-2"></i>新增平台
+                                </h3>
+                                <p class="text-slate-600 text-sm mb-2">参照 Linux 桩模式：</p>
+                                <ol class="doc-list decimal">
+                                    <li>新建 <code>src/&lt;platform&gt;/</code>：<code>sys.cpp</code>（凭据/自启动钩子）、<code>ui.cpp</code>（消息框）、<code>file_path.cpp</code>（路径）；网络与单实例优先复用 <code>src/posix/</code>；</li>
+                                    <li><code>CMakeLists.txt</code> 增加 <code>elseif</code> 分支（Linux 分支即模板：仅测试构建放行）；</li>
+                                    <li>跑通 <code>AutoSZUWebTests</code> 全部用例。</li>
+                                </ol>
+                            </div>
+
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm mb-4">
+                                <h3 class="font-bold text-primary mb-2 flex items-center">
+                                    <i class="fa fa-key mr-2"></i>修改认证协议
+                                </h3>
+                                <p class="text-slate-700 text-sm leading-relaxed">教学区改 <code>src/srun.cpp</code>（challenge 流程/载荷构造），宿舍区改 <code>src/web.cpp</code> 的 <code>LoginDormitory</code>；编排与日志在 <code>Login</code>。协议成功判定集中在 <code>PortalSuccess</code> 与 <code>LoginDormitory</code> 的 JSON 解析处。</p>
+                            </div>
+
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm mb-4">
+                                <h3 class="font-bold text-primary mb-2 flex items-center">
+                                    <i class="fa fa-archive mr-2"></i>发布打包
+                                </h3>
+                                <p class="text-slate-700 text-sm leading-relaxed">macOS 走 <code>package_macos.sh</code>（设置 <code>MACOS_SIGN_IDENTITY</code> 为 Developer ID 可切换正式签名 + 公证流程，见脚本尾部 notarization 段）；Windows 产物即 <code>build*/AutoSZUWeb.exe</code>。</p>
+                            </div>
+
+                            <!-- 结束插图 -->
+                            <div class="text-center mt-12 pt-8 border-t border-lightBlue">
+                                <img src="./img/ynz1.webp" alt="AutoSZUWeb" class="mx-auto h-auto" style="max-width: 240px;">
+                                <p class="text-slate-400 text-sm mt-4">—— 全文完 · 祝开发顺利 ——</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页脚 -->
+            <footer class="bg-navy/90 text-white py-6 shadow-anime">
+                <div class="container mx-auto px-4 text-center">
+                    <p class="mb-2">AutoSZUWeb - 深圳大学校园网后台自动认证工具 | 陇ICP备2026004953号-1</p>
+                    <p class="text-sm text-lightBlue/80">© 2026 ATMLuck 保留所有权利</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- 返回顶部 -->
+    <button id="backToTop" class="hidden-state fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-gradient-to-br from-primary to-secondary text-white shadow-anime items-center justify-center" title="返回顶部" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- 特效与交互脚本 -->
+    <script>
+        let isMobile = false;
+        let sidebarCollapsed = false;
+
+        // 检测是否为触摸设备
+        function isTouchDevice() {
+            return window.matchMedia('(pointer: coarse)').matches ||
+                   'ontouchstart' in window ||
+                   navigator.maxTouchPoints > 0;
+        }
+
+        function checkMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // 鼠标跟随光效
+        function initCursorGlow() {
+            const cursorGlow = document.getElementById('cursorGlow');
+            if (!cursorGlow) return;
+
+            let mouseX = 0, mouseY = 0;
+            let glowX = 0, glowY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateGlow() {
+                glowX += (mouseX - glowX) * 0.08;
+                glowY += (mouseY - glowY) * 0.08;
+                cursorGlow.style.left = glowX + 'px';
+                cursorGlow.style.top = glowY + 'px';
+                requestAnimationFrame(animateGlow);
+            }
+            animateGlow();
+        }
+
+        // 创建樱花花瓣
+        function createSakura() {
+            const container = document.getElementById('sakuraContainer');
+            if (!container) return;
+
+            const petalCount = 12;
+            const animations = ['sakura-fall-1', 'sakura-fall-2', 'sakura-fall-3', 'sakura-fall-4'];
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'sakura-petal';
+                petal.style.left = Math.random() * 100 + '%';
+                const animType = animations[Math.floor(Math.random() * animations.length)];
+                petal.style.animationName = animType;
+                const duration = 12 + Math.random() * 8;
+                petal.style.animationDuration = duration + 's';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                const scale = 0.7 + Math.random() * 0.5;
+                petal.style.transform = `scale(${scale})`;
+                petal.style.animationIterationCount = 'infinite';
+                petal.style.animationTimingFunction = 'linear';
+                container.appendChild(petal);
+            }
+        }
+
+        // 鼠标拖尾效果
+        function initCursorTrail() {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'cursorTrail';
+            canvas.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 9998;
+            `;
+            document.body.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let trail = [];
+            const trailDuration = 1000;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let lastX = 0, lastY = 0;
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+                if (dist > 5) {
+                    trail.push({ x: e.clientX, y: e.clientY, time: now });
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                }
+            });
+
+            function animate() {
+                const now = Date.now();
+                ctx.clearRect(0, 0, width, height);
+                trail = trail.filter(point => now - point.time < trailDuration);
+
+                if (trail.length > 1) {
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    const startPoint = trail[0];
+                    const endPoint = trail[trail.length - 1];
+                    const gradient = ctx.createLinearGradient(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+                    gradient.addColorStop(0, 'rgba(168, 216, 255, 0.8)');
+                    gradient.addColorStop(1, 'rgba(255, 209, 220, 0.8)');
+
+                    for (let i = 1; i < trail.length; i++) {
+                        const p1 = trail[i - 1];
+                        const p2 = trail[i];
+                        const age = now - p1.time;
+                        const progress = 1 - (age / trailDuration);
+                        ctx.strokeStyle = gradient;
+                        ctx.lineWidth = 4 * progress + 2;
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // 初始化点击光圈特效
+        function initClickRipple() {
+            // 移动端不启用
+            if (isTouchDevice()) return;
+
+            document.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'click-ripple';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                document.body.appendChild(ripple);
+
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        }
+
+        // 目录点击滚动
+        function goToSection(id) {
+            const target = document.getElementById(id);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+            if (isMobile) {
+                closeMobileSidebar();
+            }
+        }
+
+        // 滚动时高亮当前章节
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('.doc-section');
+            if (!sections.length) return;
+
+            const scrollPos = window.scrollY + 120;
+            let currentId = sections[0].id;
+
+            sections.forEach(s => {
+                const top = s.getBoundingClientRect().top + window.scrollY;
+                if (top <= scrollPos) {
+                    currentId = s.id;
+                }
+            });
+
+            // 滚动到底部时高亮最后一项
+            if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 40) {
+                currentId = sections[sections.length - 1].id;
+            }
+
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-section') === currentId);
+            });
+        }
+
+        // 返回顶部按钮
+        function initBackToTop() {
+            const btn = document.getElementById('backToTop');
+            if (!btn) return;
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    btn.classList.remove('hidden-state');
+                } else {
+                    btn.classList.add('hidden-state');
+                }
+            }, { passive: true });
+        }
+
+        // 关闭移动端侧边栏
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 打开移动端侧边栏
+        function openMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.add('mobile-open');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 切换桌面端侧边栏显示/隐藏
+        function toggleDesktopSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+
+            if (!sidebar || !mainContent) return;
+
+            sidebarCollapsed = !sidebarCollapsed;
+
+            if (sidebarCollapsed) {
+                sidebar.style.transform = 'translateX(-100%)';
+                sidebar.style.opacity = '0';
+                mainContent.style.marginLeft = '0';
+            } else {
+                sidebar.style.transform = 'translateX(0)';
+                sidebar.style.opacity = '1';
+                mainContent.style.marginLeft = '288px';
+            }
+
+            localStorage.setItem('manualSidebarCollapsed', sidebarCollapsed);
+        }
+
+        // 侧边栏切换入口
+        function toggleSidebar() {
+            if (isMobile) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar && sidebar.classList.contains('mobile-open')) {
+                    closeMobileSidebar();
+                } else {
+                    openMobileSidebar();
+                }
+            } else {
+                toggleDesktopSidebar();
+            }
+        }
+
+        // 响应式处理
+        function handleResize() {
+            const wasMobile = isMobile;
+            isMobile = checkMobile();
+
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!sidebar || !mainContent) return;
+
+            if (isMobile) {
+                sidebar.classList.remove('sidebar-collapsed');
+                sidebar.classList.remove('mobile-open');
+                sidebar.style.transform = '';
+                sidebar.style.opacity = '';
+                mainContent.style.marginLeft = '0';
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+
+                if (sidebarCollapsed) {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    sidebar.style.opacity = '0';
+                    mainContent.style.marginLeft = '0';
+                } else {
+                    sidebar.style.transform = 'translateX(0)';
+                    sidebar.style.opacity = '1';
+                    mainContent.style.marginLeft = '288px';
+                }
+            }
+        }
+
+        // 初始化
+        function init() {
+            const savedState = localStorage.getItem('manualSidebarCollapsed');
+            if (savedState !== null) {
+                sidebarCollapsed = savedState === 'true';
+            }
+
+            isMobile = checkMobile();
+
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+
+            if (!isMobile && sidebar && mainContent) {
+                if (sidebarCollapsed) {
+                    sidebar.style.transform = 'translateX(-100%)';
+                    sidebar.style.opacity = '0';
+                    mainContent.style.marginLeft = '0';
+                } else {
+                    sidebar.style.transform = 'translateX(0)';
+                    sidebar.style.opacity = '1';
+                    mainContent.style.marginLeft = '288px';
+                }
+            }
+            if (isMobile && mainContent) {
+                mainContent.style.marginLeft = '0';
+            }
+
+            // 特效
+            createSakura();
+            if (!isTouchDevice()) {
+                initCursorGlow();
+                initCursorTrail();
+                initClickRipple();
+            }
+
+            initBackToTop();
+            updateActiveSection();
+
+            // 代码高亮
+            if (typeof hljs !== 'undefined') {
+                hljs.highlightAll();
+            }
+
+            window.addEventListener('scroll', updateActiveSection, { passive: true });
+            window.addEventListener('resize', handleResize);
+            window.addEventListener('load', updateActiveSection);
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMobile) {
+                    closeMobileSidebar();
+                }
+            });
+        }
+
+        // 启动
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

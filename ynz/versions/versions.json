@@ -1,0 +1,57 @@
+[
+  {
+    "id": "v5",
+    "version": "V4.1",
+    "title": "游戏数据查询",
+    "features": "早柚核心 · 原神 · 星铁 · 绝区零",
+    "date": "2026年更新",
+    "active": true,
+    "isCurrent": true,
+    "file": "v5.html",
+    "badgeClass": "v3"
+  },
+  {
+    "id": "v4",
+    "version": "V4.0-beta",
+    "title": "测试更新",
+    "features": "记忆重写 · QQ空间 · 模型调整",
+    "date": "2026年发布",
+    "active": false,
+    "isCurrent": false,
+    "file": "v4.html",
+    "badgeClass": "v4"
+  },
+  {
+    "id": "v3",
+    "version": "V3.0",
+    "title": "重大更新",
+    "features": "情感系统 · 定时任务",
+    "date": "2026年发布",
+    "active": false,
+    "isCurrent": false,
+    "file": "v3.html",
+    "badgeClass": "v3"
+  },
+  {
+    "id": "v2",
+    "version": "V2.0",
+    "title": "功能增强",
+    "features": "好感度 · 语音 · 视频",
+    "date": "2026年发布",
+    "active": false,
+    "isCurrent": false,
+    "file": "v2.html",
+    "badgeClass": "v2"
+  },
+  {
+    "id": "v1",
+    "version": "V1.0",
+    "title": "初始版本",
+    "features": "Windows · QQ Bot",
+    "date": "2025年发布",
+    "active": false,
+    "isCurrent": false,
+    "file": "v1.html",
+    "badgeStyle": "background: linear-gradient(135deg, #B8D4E8, #87CEFA); color: white;"
+  }
+]

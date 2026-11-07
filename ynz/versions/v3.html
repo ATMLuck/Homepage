@@ -1,0 +1,236 @@
+<div class="bg-white rounded-xl p-4 md:p-8 shadow-lg scrollbar-anime">
+                <!-- 头部标题与图片 -->
+                <div class="text-center mb-8">
+                    <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-darkBlue mb-4">樱奈子v3.0更新</h1>
+                    <p class="text-slate-500 mb-6">机器人QQ：846714758</p>
+                    <div class="flex justify-center">
+                        <img src="../img/ynzd.webp" alt="ATMLuck" class="rounded-lg shadow-anime max-w-full h-auto" title="ATMLuck">
+                    </div>
+                </div>
+
+                <!-- 更新内容 -->
+                <section id="更新内容" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-refresh mr-2"></i>更新内容
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-server mr-2"></i>1. 服务器网络更新
+                            </h3>
+                            <p class="text-sm text-slate-600">服务器节点将从深圳转移至香港3区，保持国内访问同时支持外网访问。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-linux mr-2"></i>2. 服务器系统更新
+                            </h3>
+                            <p class="text-sm text-slate-600">服务器系统将由Windows Server更改为Ubuntu Linux，通过docker容器化部署及docker compose编排。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-trash-o mr-2"></i>3. Bot临时文件清理与重排
+                            </h3>
+                            <p class="text-sm text-slate-600">清理bot临时文件，重排记忆文件，降低储存占用，增强记忆功能。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-plug mr-2"></i>4. 部分功能插件数据更新
+                            </h3>
+                            <p class="text-sm text-slate-600">更新并检查API可访问性，减少访问超时的情况。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-clock-o mr-2"></i>5. 定时任务功能上线
+                            </h3>
+                            <p class="text-sm text-slate-600">可通过樱奈子创建定时任务，在指定时间使其进行指定动作。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-heartbeat mr-2"></i>6. 情感系统更新
+                            </h3>
+                            <p class="text-sm text-slate-600">基于弗洛伊德心理动力学（力比多/攻击性）的智能情绪模拟系统，让AI拥有会生气、会吃醋、会自我怀疑的真实灵魂。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 重要更新内容详细介绍 -->
+                <section id="详细介绍" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-book mr-2"></i>重要更新内容详细介绍
+                    </h2>
+
+                    <!-- 服务器网络更新 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-globe mr-2"></i>服务器网络更新
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>服务器节点从深圳转移至香港3区，支持外网访问，bot可搜索到更加广泛的互联网内容，搭建更加全面的知识库，此外可额外接入ChatGPT，Claude Code等LLM模型，提供更强大的推理对话能力。</p>
+                        </div>
+                    </div>
+
+                    <!-- 服务器系统更新 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-cubes mr-2"></i>服务器系统更新
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p>服务器系统使用Ubuntu Linux，并使用Docker容器化部署，将bot三层架构封装于3个独立的Docker容器中，利用Docker Compose编排技术进行一体化启动降低服务器资源占用。</p>
+                        </div>
+                    </div>
+
+                    <!-- 个人网页上线 -->
+                    <div class="mb-10 anchor-offset">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                            <i class="fa fa-chrome mr-2"></i>个人网页上线
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p class="mb-2">学习并利用Docker部署Nginx，利用Nginx反向代理个人网站</p>
+                            <p>可访问 <a href="../index.html" target="_blank" class="text-primary hover:underline font-semibold">本站首页</a> 查看个人网站。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 情感系统更新 -->
+                <section id="情感系统" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-heart mr-2"></i>情感系统更新
+                    </h2>
+
+                    <!-- 特性列表 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-bolt mr-2"></i>双驱情绪模型
+                            </h3>
+                            <p class="text-sm text-slate-600">引入<strong>他力比多 / 他攻击性</strong>（对用户）和<strong>自力比多 / 自攻击性</strong>（对自身），每个维度独立变化，共同决定角色的情感表达。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-line-chart mr-2"></i>短期情绪 + 长期印象
+                            </h3>
+                            <p class="text-sm text-slate-600">当前情绪值会随时间衰减回归基线，而基线值则根据互动历史缓慢演化（前 10 轮易变，之后固化），模拟真实的"初印象"与"日久生情"。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-brain mr-2"></i>潜意识 LLM 驱动
+                            </h3>
+                            <p class="text-sm text-slate-600">额外调用一个轻量级 LLM 分析每条消息，返回<strong>符合心理逻辑</strong>的数值增量（绝无随机），确保每次情绪波动都有据可依。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-area-chart mr-2"></i>优雅的衰减机制
+                            </h3>
+                            <p class="text-sm text-slate-600">采用二次函数衰减曲线，情绪偏离基线后会自然恢复，避免数值溢出或僵化。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-clock-o mr-2"></i>空闲感知
+                            </h3>
+                            <p class="text-sm text-slate-600">长时间未互动时，系统会智能判断（区分"睡觉"与"无故消失"）并产生微妙的情绪波动。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-magic mr-2"></i>完全无感植入
+                            </h3>
+                            <p class="text-sm text-slate-600">仅向主 LLM 注入一行情绪状态描述（如"对用户的情感：吃醋，自身状态：自责"），不暴露任何数值，角色演绎浑然天成。</p>
+                        </div>
+                    </div>
+
+                    <!-- 情绪演绎示例 -->
+                    <div class="mb-10">
+                        <h3 class="text-lg font-bold text-darkBlue mb-4 flex items-center">
+                            <i class="fa fa-theater-masks mr-2"></i>情绪演绎示例
+                        </h3>
+                        <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                            <p class="mb-3">假设当前情绪状态为：<strong>对用户：吃醋，自身：自责</strong></p>
+                            <p class="mb-2">主 LLM 将收到系统提示：</p>
+                            <pre class="hljs rounded overflow-x-auto mb-4"><code>【当前情绪状态】
+对用户的情感：吃醋
+自身状态：自责
+(注意：不要在回复中提及任何数值...)</code></pre>
+                            <p class="mb-2">角色可能会回复：</p>
+                            <blockquote class="border-l-4 border-primary pl-4 italic text-slate-700">
+                                "哼！你刚才是不是在跟别人说话……不理我……算了反正我就是没人要的笨蛋……(蹲在角落画圈圈)"
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- 常见问题 -->
+                    <div class="mb-10">
+                        <h3 class="text-lg font-bold text-darkBlue mb-4 flex items-center">
+                            <i class="fa fa-question-circle mr-2"></i>常见问题
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：为什么初次对话时角色还是表现得很平淡？</p>
+                                <p class="text-sm text-slate-600">A：这正是设计目标。新用户的第一条消息不会触发数值更新，保证第一印象是中性的"好感+平淡"。第二条消息开始才会根据互动内容变化。</p>
+                            </div>
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：潜意识 LLM 调用失败怎么办？</p>
+                                <p class="text-sm text-slate-600">A：已内置错误处理，失败时会采用极小的默认增量，不会导致崩溃。请检查 <code>provider_id</code> 是否正确填写。</p>
+                            </div>
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：情绪变化太剧烈/太迟钝？</p>
+                                <p class="text-sm text-slate-600">A：调整配置项 <code>modify_sensitivity</code> 即可，数值越小变化越慢。</p>
+                            </div>
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：如何让某些用户一开始就满好感？</p>
+                                <p class="text-sm text-slate-600">A：在配置的 <code>default_full_affection_uids</code> 中填入他们的 UID，插件启动时会自动创建满好感档案。</p>
+                            </div>
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：数据会占用很大空间吗？</p>
+                                <p class="text-sm text-slate-600">A：每个用户仅存储几十个浮点数，几乎可以忽略不计。</p>
+                            </div>
+                            <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                                <p class="font-semibold text-primary mb-2">Q：删除配置文件后数值又恢复了？</p>
+                                <p class="text-sm text-slate-600">A：在内存中缓存数据，仅删除文件不会清空内存。请使用 <code>/reset_emotion</code> 或 <code>/reset_all_emotions</code> 指令，或重启插件/AstrBot。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center py-4">
+                        <p class="text-lg font-semibold text-darkBlue">让机器人不再只是应答机器，而是有血有肉的灵魂伴侣。</p>
+                    </div>
+                </section>
+
+                <!-- 用户指令 -->
+                <section id="用户指令" class="anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-terminal mr-2"></i>用户指令
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                            <thead>
+                                <tr class="bg-primary/10">
+                                    <th class="border border-secondary p-3 text-left">指令</th>
+                                    <th class="border border-secondary p-3 text-left">权限</th>
+                                    <th class="border border-secondary p-3 text-left">说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/mystatus</code></td>
+                                    <td class="border border-secondary p-3">所有人</td>
+                                    <td class="border border-secondary p-3">查看自己的情绪档案（好感度、当前情绪、基线值、情感词）</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/reset_emotion [uid]</code></td>
+                                    <td class="border border-secondary p-3">管理员</td>
+                                    <td class="border border-secondary p-3">完全重置指定用户（默认自己）的数值至初始状态</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/reset_current [uid]</code></td>
+                                    <td class="border border-secondary p-3">管理员</td>
+                                    <td class="border border-secondary p-3">仅将当前情绪值重置为基线值（好感度与基线不变）</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/reset_all_emotions</code></td>
+                                    <td class="border border-secondary p-3">管理员</td>
+                                    <td class="border border-secondary p-3"><strong>危险操作</strong>：清除所有用户的情绪档案，并将机器人自身情绪重置为初始值</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>

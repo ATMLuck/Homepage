@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="樱奈子的能力与指令使用指南：聊天陪伴、记忆、创作、游戏查询、资讯和群聊工具。">
+    <title>樱奈子 · 能力与使用指南</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./guide.js" defer></script>
+</head>
+<body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="../index.html" aria-label="返回网站首页">
+                <span class="brand-mark"><img src="../img/icons/cherry-blossom.svg" alt=""></span>
+                <span>樱奈子<span class="brand-sub"> / 使用指南</span></span>
+            </a>
+            <nav class="header-links" aria-label="页面导航">
+                <a class="header-link desktop-link" href="#overview">能力速览</a>
+                <a class="header-link desktop-link" href="#guide">指令手册</a>
+                <a class="header-link" href="./ynz_update.html">更新日志 <span aria-hidden="true">↗</span></a>
+                <a class="header-home" href="../index.html">返回首页</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> 认识樱奈子 · 从这里开始</p>
+                <h1 id="hero-title">聊天有回应，<br><span>生活有灵感。</span></h1>
+                <p class="hero-summary">樱奈子可以陪你聊天、记住重要的事，帮你写作和画图；也能查询游戏账号、点歌、看资讯、查题目，并整理群聊里的精彩内容。</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#overview">看看她会什么 <span aria-hidden="true">↓</span></a>
+                    <a class="button button-ghost" href="#guide">直接查指令 <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="hero-hints" aria-label="使用提示">
+                    <span>自然聊天</span><span>指令直达</span><span>私聊与群聊</span>
+                </div>
+            </div>
+            <div class="hero-art">
+                <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
+                <div class="portrait-frame"><img src="../img/ynzd.webp" alt="樱奈子形象" fetchpriority="high"></div>
+                <span class="floating-note note-chat">今天想聊些什么？</span>
+                <span class="floating-note note-create">✦ 灵感正在发生</span>
+            </div>
+        </section>
+
+        <section id="overview" class="overview section-wrap" aria-labelledby="overview-title">
+            <div class="section-heading">
+                <p class="section-kicker">01 / 一眼看懂</p>
+                <h2 id="overview-title">樱奈子能帮你做什么</h2>
+                <p>从陪你说话到查资料、做内容，选一个感兴趣的方向，往下看具体用法。</p>
+            </div>
+            <div class="overview-grid">
+                <a class="overview-card" href="#chat"><span class="card-icon"><img src="../img/icons/speaking-head.svg" alt=""></span><span class="card-number">01</span><h3>聊天与陪伴</h3><p>私聊、群聊、主动问候、日程、情绪与关系状态。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card" href="#memory"><span class="card-icon"><img src="../img/icons/brain.svg" alt=""></span><span class="card-number">02</span><h3>记忆与回忆</h3><p>记住对话线索，查找过往内容，回顾群聊历史。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card" href="#creation"><span class="card-icon"><img src="../img/icons/artist-palette.svg" alt=""></span><span class="card-number">03</span><h3>创作与表达</h3><p>写故事、续写作品、画图改图、语音和表情包。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card" href="#games"><span class="card-icon"><img src="../img/icons/video-game.svg" alt=""></span><span class="card-number">04</span><h3>游戏与娱乐</h3><p>查原神、星铁、绝区零数据，签到、运势和点歌。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card" href="#information"><span class="card-icon"><img src="../img/icons/newspaper.svg" alt=""></span><span class="card-number">05</span><h3>资讯与学习</h3><p>晨报、每日一题、媒体链接解析与文件下载。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card" href="#groups"><span class="card-icon"><img src="../img/icons/busts-in-silhouette.svg" alt=""></span><span class="card-number">06</span><h3>群聊小助手</h3><p>群聊陪伴、聊天分析、群日报与话题漫画。</p><span class="card-more">查看用法 ↗</span></a>
+                <a class="overview-card overview-card-wide" href="#tools"><span class="card-icon"><img src="../img/icons/wrench.svg" alt=""></span><span class="card-number">07</span><h3>常用工具与管理</h3><p>帮助菜单、运行状态、余额查看，以及面向管理员的设置与维护指令。</p><span class="card-more">查看用法 ↗</span></a>
+            </div>
+        </section>
+
+        <section class="start section-wrap" aria-labelledby="start-title">
+            <div class="start-panel">
+                <div class="start-intro"><p class="section-kicker">02 / 开始使用</p><h2 id="start-title">一句话，或者一条指令。</h2><p>直接告诉樱奈子你想做什么；想要指定功能时，发送下方列出的指令即可。</p></div>
+                <div class="start-steps">
+                    <div><span>1</span><strong>自然聊天</strong><p>例如：「帮我回忆上次聊过的电影」。</p></div>
+                    <div><span>2</span><strong>按格式发指令</strong><p>例如：<code>/点歌 晴天</code>。尖括号中的内容请替换成自己的信息。</p></div>
+                    <div><span>3</span><strong>留意权限</strong><p>标有「管理员」的指令需要相应权限；登录信息请尽量在私聊中处理。</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="guide" class="guide section-wrap" aria-labelledby="guide-title">
+            <div class="section-heading">
+                <p class="section-kicker">03 / 详细指南</p>
+                <h2 id="guide-title">按能力查找用法</h2>
+                <p>选择分类查看指令、示例与使用条件。</p>
+            </div>
+            <div class="guide-shell">
+                <nav class="guide-tabs" id="guide-tabs" aria-label="能力分类"></nav>
+                <div class="guide-content" id="guide-content" aria-live="polite"><p class="loading">正在加载使用指南…</p></div>
+            </div>
+            <p class="guide-note">说明：页面展示的是可用入口与常见用法。部分功能需先开启、绑定账号或接入对应服务；若指令未响应，可先发送 <code>/帮助</code> 查看当前可用内容。</p>
+            <noscript><p class="guide-note">请启用 JavaScript 以查看分类指令内容。</p></noscript>
+        </section>
+    </main>
+
+    <footer class="site-footer"><span>樱奈子 Bot · 陪你探索更多可能</span><span>© 2026 ATMLuck · 陇ICP备2026004953号-1</span></footer>
+</body>
+</html>

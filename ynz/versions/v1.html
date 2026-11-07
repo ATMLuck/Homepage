@@ -1,0 +1,145 @@
+<div class="bg-white rounded-xl p-4 md:p-8 shadow-lg scrollbar-anime">
+                <!-- 头部标题与图片 -->
+                <div class="text-center mb-8">
+                    <div class="inline-block mb-4">
+                        <span class="inline-block px-4 py-1 rounded-full text-white font-bold text-sm" style="background: linear-gradient(135deg, #87CEFA, #4A90E2);">初始版本 V1.0</span>
+                    </div>
+                    <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-darkBlue mb-4">樱奈子v1.0 - 诞生之初</h1>
+                    <p class="text-slate-500 mb-6">机器人QQ：846714758</p>
+                    <div class="flex justify-center">
+                        <img src="../img/ynzd.webp" alt="ATMLuck" class="rounded-lg shadow-anime max-w-full h-auto" title="ATMLuck">
+                    </div>
+                    <p class="mt-4 text-slate-600">基于 Windows Server 的 QQ 智能聊天机器人</p>
+                </div>
+
+                <!-- 项目介绍 -->
+                <section id="项目介绍" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-rocket mr-2"></i>项目介绍
+                    </h2>
+                    <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm mb-6">
+                        <p class="mb-4">樱奈子 Bot 是一个基于 Windows Server 环境部署的 QQ 智能聊天机器人项目。作为项目的初始版本，v1.0 奠定了整个系统的基础架构，实现了与 QQ 平台的对接和基础对话能力。</p>
+                        <p>本版本采用 AstrBot 框架作为基础，配合 go-cqhttp 协议端，实现了在 Windows Server 环境下的稳定运行。</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-windows mr-2"></i>Windows Server 部署
+                            </h3>
+                            <p class="text-sm text-slate-600">基于 Windows Server 2019/2022 环境，利用 Windows 生态优势，简化部署流程，降低维护门槛。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-comments mr-2"></i>QQ 协议对接
+                            </h3>
+                            <p class="text-sm text-slate-600">通过 go-cqhttp 协议端实现与 QQ 平台的对接，支持群聊和私聊消息收发。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-brain mr-2"></i>基础 AI 对话
+                            </h3>
+                            <p class="text-sm text-slate-600">接入主流 LLM 模型，实现智能对话能力，支持上下文理解和多轮对话。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 基础功能 -->
+                <section id="基础功能" class="mb-12 anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-star mr-2"></i>基础功能
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-comment-o mr-2"></i>智能对话
+                            </h3>
+                            <p class="text-sm text-slate-600">接入大语言模型，支持自然语言对话、知识问答、文本生成等功能。支持上下文记忆，可进行多轮连续对话。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-users mr-2"></i>群聊管理
+                            </h3>
+                            <p class="text-sm text-slate-600">支持群聊消息监听和回复，可配置群白名单/黑名单，设置群专属触发词，实现群内智能助手功能。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-keyboard-o mr-2"></i>指令系统
+                            </h3>
+                            <p class="text-sm text-slate-600">内置基础指令系统，支持帮助查询、状态查看、配置管理等功能。可通过指令动态调整机器人行为。</p>
+                        </div>
+                        <div class="anime-border-card rounded-lg p-4 shadow-anime-sm">
+                            <h3 class="font-bold text-primary mb-2 flex items-center">
+                                <i class="fa fa-shield mr-2"></i>权限管理
+                            </h3>
+                            <p class="text-sm text-slate-600">支持分级权限控制，区分管理员和普通用户，可设置指令使用权限，保障系统安全性。</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                        <i class="fa fa-terminal mr-2"></i>常用指令
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse rounded-lg shadow-anime-sm">
+                            <thead>
+                                <tr class="bg-primary/10">
+                                    <th class="border border-secondary p-3 text-left">指令</th>
+                                    <th class="border border-secondary p-3 text-left">权限</th>
+                                    <th class="border border-secondary p-3 text-left">说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/help</code></td>
+                                    <td class="border border-secondary p-3">所有人</td>
+                                    <td class="border border-secondary p-3">查看帮助信息</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/status</code></td>
+                                    <td class="border border-secondary p-3">所有人</td>
+                                    <td class="border border-secondary p-3">查看机器人运行状态</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/ping</code></td>
+                                    <td class="border border-secondary p-3">所有人</td>
+                                    <td class="border border-secondary p-3">测试机器人响应</td>
+                                </tr>
+                                <tr class="hover:bg-lightBlue/20">
+                                    <td class="border border-secondary p-3"><code>/reload</code></td>
+                                    <td class="border border-secondary p-3">管理员</td>
+                                    <td class="border border-secondary p-3">重载配置文件</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 版本说明 -->
+                <section id="版本说明" class="anchor-offset">
+                    <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-darkBlue border-b-2 border-secondary pb-2 mb-6 flex items-center">
+                        <i class="fa fa-info-circle mr-2"></i>版本说明
+                    </h2>
+                    <div class="bg-lightBlue/20 rounded-lg p-4 shadow-anime-sm">
+                        <p class="mb-3">v1.0 是樱奈子 Bot 的初始版本，标志着项目的正式启动。作为基础版本，它提供了最核心的功能：</p>
+                        <ul class="list-disc pl-6 mb-4 space-y-1 text-slate-700">
+                            <li>完整的 Windows Server 部署方案</li>
+                            <li>QQ 平台的消息收发能力</li>
+                            <li>大语言模型对话集成</li>
+                            <li>基础的权限和指令系统</li>
+                        </ul>
+                        <p class="text-slate-600">虽然功能相对简单，但 v1.0 为后续的 v2.0、v3.0 版本奠定了坚实的技术基础。在此版本中积累的经验，帮助项目逐步从 Windows 环境迁移到更高效的 Linux + Docker 架构。</p>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <div class="inline-flex items-center gap-4 p-4 bg-white rounded-lg shadow-anime-sm">
+                            <span class="text-slate-500">版本演进：</span>
+                            <span class="px-3 py-1 rounded-full text-white text-sm" style="background: linear-gradient(135deg, #87CEFA, #4A90E2);">v1.0</span>
+                            <i class="fa fa-arrow-right text-slate-400"></i>
+                            <span class="px-3 py-1 rounded-full text-white text-sm" style="background: linear-gradient(135deg, #87CEFA, #4A90E2);">v2.0</span>
+                            <i class="fa fa-arrow-right text-slate-400"></i>
+                            <span class="px-3 py-1 rounded-full text-white text-sm" style="background: linear-gradient(135deg, #4A90E2, #87CEFA);">v3.0</span>
+                        </div>
+                    </div>
+                </section>
+            </div>

@@ -1,0 +1,26 @@
+<div class="guide-intro"><p class="section-kicker">02 / Memories</p><h3>记忆与回忆</h3><p>通过自然语言回忆聊天内容，也可以手动搜索、添加和整理属于当前会话的记忆。</p></div>
+<h4>自然提问</h4>
+<p>你可以直接问：「我们上次聊到的旅行计划是什么？」在群聊中也可以问：「昨天大家讨论了什么？」群聊历史查询只针对当前群，结果受记录范围和权限限制。</p>
+<h4>查找与记录</h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/mcomp status</code></td><td>查看记忆状态。</td></tr>
+<tr><td><code>/mcomp search &lt;关键词&gt; [数量]</code></td><td>搜索当前可见的记忆。</td></tr>
+<tr><td><code>/mcomp explain &lt;关键词&gt; [数量]</code></td><td>查看某条记忆为何被找到。</td></tr>
+<tr><td><code>/mcomp recent [数量]</code><br><code>/mcomp timeline [数量]</code></td><td>查看近期记忆和时间线。</td></tr>
+<tr><td><code>/mcomp add &lt;内容&gt;</code></td><td>手动记下一件事。</td></tr>
+<tr><td><code>/mcomp summarize</code></td><td>立即整理当前会话。</td></tr>
+<tr><td><code>/mcomp relations [数量] [实体ID]</code><br><code>/mcomp threads list</code></td><td>查看关系线索与延续中的话题。</td></tr>
+<tr><td><code>/陪伴 画像</code><br><code>/陪伴 记忆</code><br><code>/陪伴 长期记忆</code></td><td>从陪伴视角查看已形成的资料和记忆。</td></tr>
+</tbody></table>
+<div class="example">例：<code>/mcomp search 上次约好的电影 5</code>；想让樱奈子记住约定，可以发送 <code>/mcomp add 周六下午去看电影</code>。</div>
+<h4>整理与维护 <small>· 进阶</small></h4>
+<table class="command-table"><thead><tr><th>发送指令</th><th>能做什么</th></tr></thead><tbody>
+<tr><td><code>/mcomp visibility &lt;记忆ID&gt; &lt;可见性&gt;</code><br><code>/mcomp promote &lt;记忆ID&gt;</code><br><code>/mcomp archive &lt;记忆ID&gt;</code></td><td>调整单条记忆的可见范围、优先级或归档状态。</td></tr>
+<tr><td><code>/mcomp delete &lt;记忆ID&gt;</code></td><td>删除指定记忆；操作前确认编号。</td></tr>
+<tr><td><code>/mcomp diagnostics</code><br><code>/mcomp maintenance</code></td><td>查看诊断信息并运行维护。</td></tr>
+<tr><td><code>/mcomp sleep status</code><br><code>/mcomp sleep run</code></td><td>查看或手动进行记忆整理。</td></tr>
+<tr><td><code>/mcomp audit preview [数量]</code><br><code>/mcomp audit status &lt;批次ID&gt;</code></td><td>预览并检查记忆审计结果。</td></tr>
+<tr><td><code>/mcomp data export</code></td><td>导出记忆档案；涉及个人内容，请妥善保管。</td></tr>
+<tr><td><code>/mcomp logs [数量]</code><br><code>/mcomp threads close &lt;线程ID&gt;</code></td><td>查看运行记录，或关闭一条延续中的话题。</td></tr>
+</tbody></table>
+<div class="hint">清空范围、导入数据和应用审计会改变记忆资料，建议只由了解数据范围的管理员操作。私聊与群聊的可见范围不同。</div>
